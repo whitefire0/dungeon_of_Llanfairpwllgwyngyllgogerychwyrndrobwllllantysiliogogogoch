@@ -16,8 +16,10 @@ module BaseAttributes
 
 end
 
+
 class Game
 end
+
 
 class Character
 
@@ -43,8 +45,10 @@ class Character
 
 end
 
+
 class Enemy
 end
+
 
 class Viking < Character
 
@@ -70,6 +74,7 @@ class Viking < Character
 
 end
 
+
 class Wizard < Character
 
   attr_reader :name
@@ -81,11 +86,11 @@ class Wizard < Character
   end
 
   def roll_attribute_modifiers
-    @health += 200
-    @strength *= 1.5
-    @constitution *= 1.5
-    @intelligence *= 0.33
-    @dexterity *= 0.75
+    @health -= 100
+    @strength = (@strength * 0.5).round
+    @constitution = (@constitution * 0.5).round
+    @intelligence = (@intelligence * 3).round
+    @dexterity = (@dexterity * 1.25).round
   end
 
   def roll_unique_attributes
@@ -93,6 +98,7 @@ class Wizard < Character
   end
 
 end
+
 
 class Rogue < Character
 
@@ -105,11 +111,11 @@ class Rogue < Character
   end
 
   def roll_attribute_modifiers
-    # @health += 200
-    # @strength *= 1.5
-    # @constitution *= 1.5
-    # @intelligence *= 0.33
-    # @dexterity *= 0.75
+    @health += 100
+    @strength = (@strength * 1.1).round
+    @constitution = (@constitution * 1.1).round
+    @intelligence = (@intelligence * 0.75).round
+    @dexterity = (@dexterity * 1.5).round
   end
 
   def roll_unique_attributes
@@ -118,11 +124,18 @@ class Rogue < Character
 
 end
 
+
 class Goblin < Enemy
 end
+
 
 class UserInterface
 end
 
-loki = Viking.create('loki')
+
+loki = Viking.create('Loki')
+gandalf = Wizard.create('Gandalf')
+blake = Rogue.create('Blake')
 ap loki
+ap gandalf
+ap blake
