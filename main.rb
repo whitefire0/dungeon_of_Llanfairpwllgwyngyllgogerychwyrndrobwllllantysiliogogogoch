@@ -1,21 +1,28 @@
+require 'pry'
+require 'pry-byebug'
+require 'awesome_print'
+
 class Game
 end
 
 class Character
-
-  # class factory method to create the generic char attributes
   def self.create(name)
-    # create integer between 16 - 75
     age = rand * 60 + 15
     attributes = {
       name: name,
       age: age,
-      health: [age * 5, 200].min,
-      strength: [age / 2, 10].min,
+      health: [age * 5, 300].min,
+      strength: [age / 2, 10].max,
+      constitution: base_range,
+      dexterity: base_range,
+      intelligence: base_range
     }
     self.new(attributes)
   end
 
+  def self.base_range
+    rand * 50 + 15
+  end
 end
 
 class Enemy
@@ -28,6 +35,49 @@ class Viking < Character
     @age = attributes[:age]
     @health = attributes[:health]
     @strength = attributes[:strength]
+    @constitution = attributes[:constitution]
+    @dexterity = attributes[:dexterity]
+    @intelligence = attributes[:intelligence]
+    roll_attribute_modifiers
+    # roll_unique_attributes
+  end
+
+  def roll_attribute_modifiers
+    @strength *= 1.5
+    @health += 200
+  end
+
+  def roll_unique_attributes
+
+  end
+end
+
+class Wizard < Character
+  attr_reader :name, :age, :health, :strength
+  def initialize(attributes)
+    @name = attributes[:name]
+    @age = attributes[:age]
+    @health = attributes[:health]
+    @strength = attributes[:strength]
+    @constitution = attributes[:constitution]
+    @dexterity = attributes[:dexterity]
+    @intelligence = attributes[:intelligence]
+    # roll_unique_attributes
+  end
+
+end
+
+class Rogue < Character
+  attr_reader :name, :age, :health, :strength
+  def initialize(attributes)
+    @name = attributes[:name]
+    @age = attributes[:age]
+    @health = attributes[:health]
+    @strength = attributes[:strength]
+    @constitution = attributes[:constitution]
+    @dexterity = attributes[:dexterity]
+    @intelligence = attributes[:intelligence]
+    # roll_unique_attributes
   end
 end
 
@@ -38,4 +88,4 @@ class UserInterface
 end
 
 loki = Viking.create('loki')
-p loki
+ap loki
