@@ -24,7 +24,7 @@ class Character
   include BaseAttributes
 
   def self.create(name)
-    age = rand * 60 + 15
+    age = (rand * 60 + 15).round
     attributes = {
       name: name,
       age: age,
@@ -38,7 +38,7 @@ class Character
   end
 
   def self.base_range
-    rand * 50 + 15
+    (rand * 50 + 15).round
   end
 
 end
@@ -57,8 +57,11 @@ class Viking < Character
   end
 
   def roll_attribute_modifiers
-    @strength *= 1.5
     @health += 200
+    @strength = (@strength * 1.5).round
+    @constitution = (@constitution * 1.5).round
+    @intelligence = (@intelligence * 0.33).round
+    @dexterity = (@dexterity * 0.75).round
   end
 
   def roll_unique_attributes
@@ -78,8 +81,11 @@ class Wizard < Character
   end
 
   def roll_attribute_modifiers
-    @strength *= 1.5
     @health += 200
+    @strength *= 1.5
+    @constitution *= 1.5
+    @intelligence *= 0.33
+    @dexterity *= 0.75
   end
 
   def roll_unique_attributes
@@ -99,14 +105,17 @@ class Rogue < Character
   end
 
   def roll_attribute_modifiers
-    @strength *= 1.5
-    @health += 200
+    # @health += 200
+    # @strength *= 1.5
+    # @constitution *= 1.5
+    # @intelligence *= 0.33
+    # @dexterity *= 0.75
   end
 
   def roll_unique_attributes
 
   end
-  
+
 end
 
 class Goblin < Enemy
