@@ -18,6 +18,24 @@ class Viking < Character
   end
 end
 
+class Barbarian < Character
+  attr_reader :name
+
+  def roll_attribute_modifiers
+    @health += 50
+    @strength = (@strength * 2).round
+    @constitution = (@constitution * 2).round
+    @intelligence = (@intelligence * 0.31).round
+    @dexterity = (@dexterity * 2).round
+  end
+
+  def add_unique_skills
+    @unique_skills = {
+      triple_smash: 5
+    }
+  end
+end
+
 class Wizard < Character
   attr_reader :name
 
