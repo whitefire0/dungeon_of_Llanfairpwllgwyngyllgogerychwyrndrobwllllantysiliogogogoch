@@ -1,15 +1,21 @@
-class Viking
-    def initialize(name, health, age, strength)
-        #... set variables
-    end
-    def self.create_warrior(name)
-        age = rand * 20 + 15   # remember, rand gives a random 0 to 1
-        health = [age * 5, 120].min
-        strength = [age / 2, 10].min
-        Viking.new(name, health, age, strength)  # returned
-    end
-end
+user interface
+  inspect tile
+  
+  rest
+  move
+  inventory
+    use inventory items
 
-> sten = Viking.create_warrior("Sten")
+game
+  recieves intructions from user interface
+  stores turn
+  stores turn log
+  requests and manages tiles
 
-have a character class# that sets default parameter values
+tile
+  generates new tile with base properties
+
+characters
+
+  interact with each other, but handle their own state
+  inter

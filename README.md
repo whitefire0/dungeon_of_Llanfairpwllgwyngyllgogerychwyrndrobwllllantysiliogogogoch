@@ -1,6 +1,6 @@
 # ThunderGimp - A text based adventure game
 
-##The Concept
+## The Concept
 
 You begin at character creation, with Viking, Wizard, Rogue, Cleric and Gimp as your five basic classes. If you can complete the game with the Gimp, you get serious bonus points.
 
