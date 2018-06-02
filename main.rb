@@ -43,4 +43,5 @@ puts "\n"
 puts "#" * 168
 puts "Battle mechanics checker:"
 puts "#" * 168
+binding.pry
 loki.hit(ratlet)

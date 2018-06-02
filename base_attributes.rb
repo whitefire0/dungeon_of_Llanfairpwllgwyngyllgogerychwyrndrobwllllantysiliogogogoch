@@ -39,12 +39,12 @@ class Character
   end
 
   def hit(enemy)
-    enemy.take_damage(self.strength)
     puts "#{self.name} hit #{enemy.name} for #{self.strength} damage."
+    enemy.take_damage(self.strength)
   end
 
   def take_damage(damage)
     self.health - damage unless self.health < 1
-    puts "#{self.name} lost #{self.health} health points"
+    puts "#{self.name} lost #{damage} health points"
   end
 end
