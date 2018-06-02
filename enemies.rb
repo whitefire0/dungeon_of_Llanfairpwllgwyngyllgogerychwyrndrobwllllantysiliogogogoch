@@ -1,7 +1,8 @@
 require_relative 'base_attributes'
+require_relative 'characters'
 
-class Enemy
-  include BaseAttributes
+class Enemy < Character
+  
 end
 
 class Goblin < Enemy
