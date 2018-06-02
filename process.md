@@ -1,6 +1,6 @@
 user interface
   inspect tile
-  
+
   rest
   move
   inventory
@@ -16,6 +16,5 @@ tile
   generates new tile with base properties
 
 characters
-
   interact with each other, but handle their own state
   inter

@@ -12,6 +12,7 @@ end
 
 class Character
   include BaseAttributes
+  attr_reader :name, :age, :health, :strength
 
   def initialize(attributes)
     create_base(attributes)
@@ -37,11 +38,13 @@ class Character
     (rand * 50 + 15).round
   end
 
-  def self.hit(enemy)
+  def hit(enemy)
     enemy.take_damage(self.strength)
+    puts "#{self.name} hit #{enemy.name} for #{self.strength} damage."
   end
 
-  def self.take_damage(damage)
+  def take_damage(damage)
     self.health - damage unless self.health < 1
+    puts "#{self.name} lost #{self.health} health points"
   end
 end
