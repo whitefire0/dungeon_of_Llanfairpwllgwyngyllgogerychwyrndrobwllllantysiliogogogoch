@@ -18,7 +18,6 @@ class Viking < Character
   end
 end
 
-
 class Wizard < Character
   attr_reader :name
 
@@ -36,7 +35,6 @@ class Wizard < Character
     }
   end
 end
-
 
 class Rogue < Character
   attr_reader :name
