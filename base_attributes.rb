@@ -13,6 +13,7 @@ end
 class Character
   include BaseAttributes
   attr_reader :name, :age, :health, :strength
+  attr_writer :health
 
   def initialize(attributes)
     create_base(attributes)
@@ -44,7 +45,23 @@ class Character
   end
 
   def take_damage(damage)
-    self.health - damage unless self.health < 1
-    puts "#{self.name} lost #{damage} health points"
+    self.health -= damage
+    if self.health > 0
+      puts "#{self.name} lost #{damage} health points, and has #{self.health} points remaining"
+    else
+      character_dead!
+    end
   end
+
+  def character_dead!
+    puts "#{self.name} lost all their health points and has died!"
+  end
+
+  # def is_enemy_alive?(enemy)
+  #   enemy.health > 0
+  # end
+
+  # def is_self_alive?
+  #   self.health > 0
+  # end
 end

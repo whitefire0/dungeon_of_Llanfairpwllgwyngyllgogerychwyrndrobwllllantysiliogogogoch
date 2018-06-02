@@ -43,5 +43,25 @@ puts "\n"
 puts "#" * 168
 puts "Battle mechanics checker:"
 puts "#" * 168
-binding.pry
-loki.hit(ratlet)
+# binding.pry
+loki.hit(wheezy)
+wheezy.hit(loki)
+loki.hit(wheezy)
+wheezy.hit(loki)
+loki.hit(wheezy)
+wheezy.hit(loki)
+loki.hit(wheezy)
+wheezy.hit(loki)
+loki.hit(wheezy)
+wheezy.hit(loki)
+loki.hit(wheezy)
+
+
+
+
+
+
+# loki hits ratlet
+# ratlet is alive
+# prints damage statement
+# ratlet.take damage
