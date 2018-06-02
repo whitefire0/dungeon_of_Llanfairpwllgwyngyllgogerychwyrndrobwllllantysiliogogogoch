@@ -92,7 +92,45 @@ class Rogue < Character
 end
 
 class Cleric < Character
+  attr_reader :name
+
+  def initialize(attributes)
+    create_base(attributes)
+    roll_attribute_modifiers
+    roll_unique_attributes
+  end
+
+  def roll_attribute_modifiers
+    @health -= 150
+    @strength = (@strength * 0.6).round
+    @constitution = (@constitution * 0.9).round
+    @intelligence = (@intelligence * 2).round
+    @dexterity = (@dexterity * 1.5).round
+  end
+
+  def roll_unique_attributes
+
+  end
 end
 
 class Gimp < Character
+  attr_reader :name
+
+  def initialize(attributes)
+    create_base(attributes)
+    roll_attribute_modifiers
+    roll_unique_attributes
+  end
+
+  def roll_attribute_modifiers
+    @health += 1000
+    @strength = (@strength * 0.1).round
+    @constitution = (@constitution * 3).round
+    @intelligence = (@intelligence * 0.25).round
+    @dexterity = (@dexterity * 0.5).round
+  end
+
+  def roll_unique_attributes
+
+  end
 end

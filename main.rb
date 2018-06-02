@@ -3,6 +3,7 @@ require 'pry-byebug'
 require 'awesome_print'
 
 require_relative 'characters'
+require_relative 'enemies'
 
 class Game
 end
