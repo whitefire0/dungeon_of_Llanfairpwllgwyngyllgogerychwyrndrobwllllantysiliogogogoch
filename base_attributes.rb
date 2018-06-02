@@ -40,14 +40,15 @@ class Character
   end
 
   def hit(enemy)
-    puts "#{self.name} hit #{enemy.name} for #{self.strength} damage."
+    puts "#{self.name} hit #{enemy.name} the #{enemy.class} for #{self.strength} damage."
     enemy.take_damage(self.strength)
   end
 
   def take_damage(damage)
+    damage = fluctuate(damage)
     self.health -= damage
     if self.health > 0
-      puts "#{self.name} lost #{damage} health points, and has #{self.health} points remaining"
+      puts "#{self.name} lost #{damage} health points, and has #{self.health} points remaining\n\n"
     else
       character_dead!
     end
@@ -55,6 +56,10 @@ class Character
 
   def character_dead!
     puts "#{self.name} lost all their health points and has died!"
+  end
+
+  def fluctuate(num)
+    (num * (rand(0.0..1.3))).round
   end
 
   # def is_enemy_alive?(enemy)
