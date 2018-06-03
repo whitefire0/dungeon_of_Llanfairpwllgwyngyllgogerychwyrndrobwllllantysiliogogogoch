@@ -20,12 +20,25 @@ class Game
   # end
 
   def create_character_instance(chosen_class)
-    class_symbol = nil
-    if chosen_class == 'v'
+    case chosen_class
+    when /[vV]/
       @player_char = Object.const_get('Viking')
-      @player_char.create('Loki')
-      puts @player_char.inspect
+    when /[bB]/
+      @player_char = Object.const_get('Barbarian')
+    when /[wW]/
+      @player_char = Object.const_get('Wizard')
+    when /[rR]/
+      @player_char = Object.const_get('Rogue')
+    when /[cC]/
+      @player_char = Object.const_get('Cleric')
+    when /[gG]/
+      @player_char = Object.const_get('Gimp')
+    else
     end
+
+    @player_char = @player_char.create(@player_name)
+    @player_char.name << " the #{@player_char.class}"
+    puts @player_char.name
   end
 end
 
@@ -57,7 +70,7 @@ class UserInterface
     puts "Please enter your name, player: \n"
     @game_instance.player_name = gets.chomp
     @player_created = true
-    puts "Please choose your character class (v, w, r, c, g):\n"
+    puts "Please choose your character class (v, b,w, r, c, g):\n"
     chosen_class = gets.chomp
     @game_instance.create_character_instance(chosen_class)
   end

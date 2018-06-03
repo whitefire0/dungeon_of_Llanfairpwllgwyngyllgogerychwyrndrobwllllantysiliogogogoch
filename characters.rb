@@ -20,6 +20,7 @@ end
 
 class Barbarian < Character
   attr_reader :name
+  attr_writer :name
 
   def roll_attribute_modifiers
     @health += 50
