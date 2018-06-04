@@ -13,3 +13,7 @@ present tile to player
     generate new tile
   repeat until dungeon complete (initially 10 tiles), or character dies
 on completion or death, log game details in a local text file
+
+
+
+git ls-files | xargs cat | wc -l

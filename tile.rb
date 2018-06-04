@@ -56,6 +56,20 @@ class Tile
   end
 
   def pick_enemy
+    enemy_choice_probability = rand(100)
+    p = enemy_choice_probability
+    case
+    when p < 60 then @enemy = SewerRat.new('Ratlet')
+    when p > 60 && p < 80
+      @enemy = Goblin.new('Arse Itch')
+    when p > 80 && p < 95
+      @enemy = Wreath.new('Nazgul')
+    when p > 95 && p <= 100
+      @enemy = Balrog.new('Beatrice')
+    else
+    end
+
+
     @enemy = Enemy.new
   end
 

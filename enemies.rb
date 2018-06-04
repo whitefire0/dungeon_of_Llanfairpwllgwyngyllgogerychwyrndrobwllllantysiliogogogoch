@@ -1,31 +1,6 @@
 require_relative 'base_attributes'
 
 class Enemy < Character
-
-  def initialize
-    determine_luck
-    summon_enemy
-  end
-
-  def determine_luck
-    @luck_stat = rand(100)
-  end
-
-  def summon_enemy
-    case @luck_stat
-    when < 60
-      @enemy = SewerRat.new('Ratlet')
-    when > 60 && < 80
-      @enemy = Goblin.new('Twat')
-    when > 80 && < 95
-      @enemy = Wreath.new('Nazgul')
-    when > 95 && <= 100
-      @enemy = Balrog.new('Beatrice')
-    else
-    end
-
-  end
-
 end
 
 class SewerRat < Enemy
