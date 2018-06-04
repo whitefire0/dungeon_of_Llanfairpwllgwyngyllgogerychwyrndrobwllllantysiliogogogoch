@@ -33,7 +33,7 @@ class Character
       intelligence: base_range
     }
     self.new(attributes)
-    
+
   end
 
   def self.base_range
@@ -41,7 +41,7 @@ class Character
   end
 
   def hit(enemy)
-    puts "#{self.name} hit #{enemy.name} the #{enemy.class} for #{self.strength} damage."
+    puts "#{self.name} hit #{enemy.name} the #{enemy.class} for #{self.strength} damage.".colorize(:red)
     enemy.take_damage(self.strength)
   end
 
@@ -49,14 +49,14 @@ class Character
     damage = fluctuate(damage)
     self.health -= damage
     if self.health > 0
-      puts "#{self.name} lost #{damage} health points, and has #{self.health} points remaining\n\n"
+      puts "#{self.name} lost #{damage} health points, and has #{self.health} points remaining\n\n".colorize(:red)
     else
       character_dead!
     end
   end
 
   def character_dead!
-    puts "#{self.name} lost all their health points and has died!"
+    puts "#{self.name} lost all their health points and has died!".colorize(:red)
   end
 
   def fluctuate(num)

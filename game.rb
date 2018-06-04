@@ -15,7 +15,7 @@ class Game
 
   def select_character_instance
     while @player_char.class == NilClass
-      puts "\nPlease choose your character class (v, b,w, r, c, g):\n"
+      puts "\nPlease choose your character class (v, b,w, r, c, g):\n".colorize(:magenta)
       # chosen_class = gets.chomp
       # *** FOR TESTING ***
       chosen_class = 'v'
@@ -33,7 +33,7 @@ class Game
       when /^g|G/
         set_player_class('Gimp')
       else
-        puts "Invalid choice, please choose again."
+        puts "Invalid choice, please choose again.".colorize(:light_black)
       end
     end
   end
@@ -67,6 +67,18 @@ class Game
       @npc_wreath => Wreath.create('Casper'),
       @npc_balrog => Balrog.create('Berty')
     }
+  end
+
+  def battle_mode
+    player_attacks
+  end
+
+  def player_attacks
+    player_char.hit(current_tile.enemy)
+  end
+
+  def enemy_attacks
+
   end
 
 end

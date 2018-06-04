@@ -16,11 +16,13 @@ class UserInterface
       @game_instance.get_new_tile
       present_tile
       get_player_action
-      binding.pry
+
+      # binding.pry
+
       case @chosen_action
       when "attack"
         if @game_instance.current_tile.enemy
-          @game_instance.player_char.hit(@game_instance.current_tile.enemy)
+          @game_instance.battle_mode
         else
           puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit."
         end
@@ -50,18 +52,20 @@ class UserInterface
   end
 
   def welcome_player
-    puts "Welcome to the dungeon, #{@game_instance.player_name}! Untold glory awaits you."
+    puts "Welcome to the dungeon, #{@game_instance.player_name}! Untold glory awaits you.".colorize(:blue)
     @character_chosen = true
   end
 
   def present_tile
-    puts @game_instance.current_tile.tile_type
+    puts @game_instance.current_tile.tile_description.colorize(:green)
     if @game_instance.current_tile.enemy_present
-      puts "An enemy has appeared! #{@game_instance.current_tile.enemy.name} is standing in front of you."
+      puts "An enemy has appeared! #{@game_instance.current_tile.enemy.name} is standing in front of you.".colorize(:light_red)
     end
   end
 
   def get_player_action
+    # *** FOR TESTING ***
+    @chosen_action = 'attack'
     while @chosen_action == nil
       puts "Player, make your choice: (a, r, i, h)"
       response = gets.chomp
@@ -75,7 +79,7 @@ class UserInterface
       when /^h|H/
         @chosen_action = 'hide'
       else
-        puts "Invalid action. Please choose again."
+        puts "Invalid action. Please choose again.".colorize(:light_black)
       end
     end
   end

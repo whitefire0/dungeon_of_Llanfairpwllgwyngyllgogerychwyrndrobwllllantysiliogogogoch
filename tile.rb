@@ -1,5 +1,5 @@
 class Tile
-  attr_accessor :tile_type, :tile_decscription, :enemy_present, :enemy, :item_present, :item
+  attr_accessor :tile_type, :tile_description, :enemy_present, :enemy, :item_present, :item
 
   def initialize
     roll_tile_type

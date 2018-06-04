@@ -1,6 +1,7 @@
 require 'pry'
 require 'pry-byebug'
 require 'awesome_print'
+require 'colorize'
 
 require_relative 'user_interface'
 require_relative 'game'
