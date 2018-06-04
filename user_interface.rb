@@ -8,15 +8,29 @@ class UserInterface
     @play_again = nil
   end
   
-  def run_menu
+  def run_root_controller
     while @game_instance.on do
-      create_player unless @player_created
-      @game_instance.select_character_instance unless @character_chosen
-      @game_instance.on = true if @player_created && @character_chosen
-
+      player_creation_if_needed
       get_player_action
+      run_player_action
 
-      case @chosen_action
+      # return true/false to outer game creation loop in main.rb
+      if @play_again
+        return true
+      else
+        return false unless @game_instance.on
+      end
+    end
+  end
+
+  def player_creation_if_needed
+    create_player unless @player_created
+    @game_instance.select_character_instance unless @character_chosen
+    @game_instance.on = true if @player_created && @character_chosen
+  end
+
+  def run_player_action
+    case @chosen_action
       when "walk"
         unless @game_instance.tile_number > @game_instance.spent_tiles
           move_forward_and_act
@@ -35,14 +49,6 @@ class UserInterface
       when "hide"
         # code
       else
-      end
-
-      # return true/false to outer game creation loop in main.rb
-      if @play_again
-        return true
-      else
-        return false unless @game_instance.on
-      end
     end
   end
 

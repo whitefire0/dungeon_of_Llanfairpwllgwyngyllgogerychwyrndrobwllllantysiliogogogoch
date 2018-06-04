@@ -10,16 +10,16 @@ require_relative 'item'
 require_relative 'characters'
 require_relative 'enemies'
 
-def start_game
+def start_game_instance
   play_again = true
   while play_again do
     game = Game.new
     interface = UserInterface.new(game)
     game.menu_instance = interface
-    play_again = interface.run_menu
+    play_again = interface.run_root_controller
   end
 end
 
-start_game
+start_game_instance
 
 # Application Build Tests
