@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, 
+  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs 
 
   def initialize
     @menu_instance = nil
@@ -7,7 +7,6 @@ class Game
     @player_created = false
     @player_name = nil
     @player_char = nil
-    # BUG-01: why is tile_number being set to nil by the time of get_new_tile from UserInterface?
     @tile_number = 0
     @tile_type = nil
     @current_tile = nil

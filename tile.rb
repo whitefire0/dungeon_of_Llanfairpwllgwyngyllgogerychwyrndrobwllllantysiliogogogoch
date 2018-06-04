@@ -25,7 +25,7 @@ class Tile
     when 'hot'
       @tile_description = "You have entered a particularly hot area. Your instincts tell you a Balrog was wandering here recently."
     when 'cold'
-      @tile_description = "As you exhale, the air condenses into a distinct stream of vapour. Do Wreathes make places cold? You search for your baddy codex and realise you left it at home."
+      @tile_description = "As you exhale, the air condenses into a distinct stream of vapour. Do Wreaths make places cold? You search for your baddy codex and realise you left it at home next to your WTF ARE YOU DOING?"
     when 'freezing'
       @tile_description = "You tighten your robes, this area is at least -20C. In a flash of horror you remember that Wreathes are well known for leaving trails of cold death behind them."
     when 'grassy'
@@ -68,8 +68,6 @@ class Tile
       @enemy = Balrog.new('Beatrice')
     else
     end
-
-
     @enemy = Enemy.new
   end
 

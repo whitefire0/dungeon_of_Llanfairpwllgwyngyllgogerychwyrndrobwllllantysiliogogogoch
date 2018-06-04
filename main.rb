@@ -11,10 +11,8 @@ require_relative 'enemies'
 
 def start_game
   game = Game.new
-  game.tile_number = 0
   interface = UserInterface.new(game)
   game.menu_instance = interface
-  # binding.pry
   interface.run_menu
 end
 

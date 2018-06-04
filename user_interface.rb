@@ -16,7 +16,22 @@ class UserInterface
       @game_instance.get_new_tile
       present_tile
       get_player_action
-      puts @chosen_action
+      binding.pry
+      case @chosen_action
+      when "attack"
+        if @game_instance.current_tile.enemy
+          @game_instance.player_char.hit(@game_instance.current_tile.enemy)
+        else
+          puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit."
+        end
+      when "rest"
+        # code
+      when "inspect"
+        # code
+      when "hide"
+        # code
+      else
+      end
 
 
       puts "Menu powering down..."
