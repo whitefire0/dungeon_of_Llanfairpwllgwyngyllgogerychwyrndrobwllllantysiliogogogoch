@@ -38,7 +38,7 @@ class Tile
     when 'quantum'
       @tile_description = "Your belly gurgles and it is slower than usual...when you move your eyes, little pixels of light form in the corner of your eyes. In the distance you hear a cat, and you have a sudden sense that reality is thin here. You don't know what this means but you are not feeling good about it."
     else
-      @tile_description = "There is nothing remarkable about this area."
+      @tile_description = "There is nothing remarkable about this place..."
     end
   end
 
@@ -57,6 +57,7 @@ class Tile
 
   def pick_enemy
     @enemy = Goblin.create('Arse Itch')
+    @enemy_present = true
     # enemy_choice_probability = rand(100)
     # p = enemy_choice_probability
     # case

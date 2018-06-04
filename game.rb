@@ -15,7 +15,13 @@ class Game
 
   def select_character_instance
     while @player_char.class == NilClass
-      puts "\nPlease choose your character class (v, b,w, r, c, g):\n".colorize(:magenta)
+      puts "\nPlease choose your character class:
+              v = Viking 
+              b = Barbarian
+              w = Wizard 
+              r = Rogue 
+              c = Cleric 
+              g = Gimp\n".colorize(:magenta)
       # chosen_class = gets.chomp
       # *** FOR TESTING ***
       chosen_class = 'v'

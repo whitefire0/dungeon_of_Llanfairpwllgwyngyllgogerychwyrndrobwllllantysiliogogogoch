@@ -52,14 +52,15 @@ class UserInterface
   end
 
   def welcome_player
-    puts "Welcome to the dungeon, #{@game_instance.player_name}! Untold glory awaits you.".colorize(:blue)
+    puts "Welcome to the dungeon, #{@game_instance.player_name}! Untold glory awaits you.\n".colorize(:blue)
     @character_chosen = true
   end
 
   def present_tile
+    puts "You step forward, into the next dungeon area...".colorize(:light_green)
     puts @game_instance.current_tile.tile_description.colorize(:green)
     if @game_instance.current_tile.enemy_present
-      puts "An enemy has appeared! #{@game_instance.current_tile.enemy.name} is standing in front of you.".colorize(:light_red)
+      puts "\nAn enemy has appeared! #{@game_instance.current_tile.enemy.name} the #{@game_instance.current_tile.enemy.class} is standing in front of you!\n".colorize(:light_red)
     end
   end
 
