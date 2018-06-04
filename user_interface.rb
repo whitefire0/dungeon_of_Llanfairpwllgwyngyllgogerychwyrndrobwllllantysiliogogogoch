@@ -5,24 +5,25 @@ class UserInterface
     @player_created = false
     @character_chosen = false
     @chosen_action = nil
+    @play_again = nil
   end
   
   def run_menu
-    create_player unless @player_created
-    @game_instance.select_character_instance unless @character_chosen
-    @game_instance.on = true if @player_created && @character_chosen
-
     while @game_instance.on do
+      create_player unless @player_created
+      @game_instance.select_character_instance unless @character_chosen
+      @game_instance.on = true if @player_created && @character_chosen
+
       @game_instance.get_new_tile
       present_tile
       get_player_action
 
       # binding.pry
-
       case @chosen_action
       when "attack"
         if @game_instance.current_tile.enemy
           @game_instance.battle_mode
+          exit_game? if @game_instance.player_char.is_dead
         else
           puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit."
         end
@@ -35,9 +36,12 @@ class UserInterface
       else
       end
 
-
-      puts "Menu powering down..."
-      @game_instance.on = false
+      # return true/false to outer game creation loop in main.rb
+      if @play_again
+        return true
+      else
+        return false
+      end
     end
   end
 
@@ -66,7 +70,6 @@ class UserInterface
   end
 
   def present_tile
-    
     puts "You step forward, into the next dungeon area...".colorize(:light_green)
     puts @game_instance.current_tile.tile_description.colorize(:green)
     if @game_instance.current_tile.enemy_present
@@ -107,5 +110,32 @@ class UserInterface
         puts "Invalid action. Please choose again.".colorize(:light_black)
       end
     end
+  end
+
+  def exit_game?
+    @play_again = nil
+    while @play_again == nil do
+      puts "You have been defeated! Would you like to play again? (y/n)"
+      response = gets.chomp
+      case response
+      when /^y|Y/
+        @play_again = true
+      when /^n|N/
+        @play_again = false
+      else
+        puts "Invalid answer. Please choose again.".colorize(:light_black)
+      end
+    end
+
+    @game_instance.on = false if @play_again == false
+
+    # binding.pry
+    # if @play_again
+    #   @player_created = false
+    #   @character_chosen = false
+    #   @chosen_action = nil
+    # else
+    #   @game_instance.on = false
+    # end
   end
 end

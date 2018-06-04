@@ -11,10 +11,13 @@ require_relative 'characters'
 require_relative 'enemies'
 
 def start_game
-  game = Game.new
-  interface = UserInterface.new(game)
-  game.menu_instance = interface
-  interface.run_menu
+  play_again = true
+  while play_again do
+    game = Game.new
+    interface = UserInterface.new(game)
+    game.menu_instance = interface
+    play_again = interface.run_menu
+  end
 end
 
 start_game
