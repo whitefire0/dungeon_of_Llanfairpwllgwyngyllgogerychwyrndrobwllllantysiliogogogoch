@@ -16,43 +16,38 @@ class Game
     @player_char = nil
   end
 
-  # WHYYY
-  # main.rb:21:in `instance_variable_set': `menu_interface' is not allowed as an instance variable name (NameError)
-  # def inject_dependency(var_name, object_name)
-  #   var_name = var_name.to_sym
-  #   instance_variable_set(var_name, object_name)
-  # end
-
-  def select_character_instance(chosen_class)
-    while 
-    puts "\nPlease choose your character class (v, b,w, r, c, g):\n"
-    chosen_class = gets.chomp
-    case chosen_class
-    when /^v|V/
-      set_player_class('Viking')
-    when /^b|B/
-      set_player_class('Barbarian')
-    when /^w|W/
-      set_player_class('Wizard')
-    when /^r|R/
-      set_player_class('Rogue')
-    when /^c|C/
-      set_player_class('Cleric')
-    when /^g|G/
-      set_player_class('Gimp')
-    else
-      puts "Invalid choice, please choose again."
-      @menu_instance.create_player
+  def select_character_instance
+    while @player_char.class == NilClass
+      puts "\nPlease choose your character class (v, b,w, r, c, g):\n"
+      chosen_class = gets.chomp
+      case chosen_class
+      when /^v|V/
+        set_player_class('Viking')
+      when /^b|B/
+        set_player_class('Barbarian')
+      when /^w|W/
+        set_player_class('Wizard')
+      when /^r|R/
+        set_player_class('Rogue')
+      when /^c|C/
+        set_player_class('Cleric')
+      when /^g|G/
+        set_player_class('Gimp')
+      else
+        puts "Invalid choice, please choose again."
+      end
     end
   end
 
   def create_character_instance
     @player_char = @player_char.create(@player_name)
     @player_char.name << " the #{@player_char.class}"
+    @menu_instance.welcome_player
   end
     
   def set_player_class(classname)
     @player_char = Object.const_get(classname)
+    create_character_instance
   end
 end
 
@@ -67,16 +62,12 @@ class UserInterface
   end
   
   def run_menu
-    counter = 0
     while @game_instance.on do
-      if @player_created
+      create_player unless @player_created
+      @game_instance.select_character_instance
 
-      else
-        create_player
-      end
-
-      counter += 1
-      @game_instance.on = false if counter > 10
+      puts "Menu powering down..."
+      @game_instance.on = false
     end
   end
 
@@ -86,15 +77,12 @@ class UserInterface
       @game_instance.player_name = gets.chomp
       @player_created = true
     end
-    
-
-    # HACK: limit print statement to once due to create_player and create_character_instance calling each other creating repeated stack frames
-    print_num = 0
-    if print_num == 0
-      puts "Welcome to the dungeon, #{@game_instance.player_name}! Untold glory awaits you."
-      print_num =+ 1
-    end
   end
+
+  def welcome_player
+    puts "Welcome to the dungeon, #{@game_instance.player_name}! Untold glory awaits you."
+  end
+    
 end
 
 game = Game.new
@@ -133,18 +121,6 @@ interface.run_menu
 # puts "Battle mechanics checker:"
 # puts "#" * 168
 # binding.pry
-# loki.hit(berty)
-# berty.hit(loki)
-# loki.hit(berty)
-# berty.hit(loki)
-# loki.hit(berty)
-# berty.hit(loki)
-# loki.hit(berty)
-# berty.hit(loki)
-# loki.hit(berty)
-# berty.hit(loki)
-# loki.hit(berty)
-# berty.hit(loki)
 # loki.hit(berty)
 # berty.hit(loki)
 
