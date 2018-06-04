@@ -23,9 +23,9 @@ class Game
               r = Rogue 
               c = Cleric 
               g = Gimp\n".colorize(:magenta)
-      chosen_class = gets.chomp
+      # chosen_class = gets.chomp
       # *** FOR TESTING ***
-      # chosen_class = 'v'
+      chosen_class = 'v'
       case chosen_class
       when /^v|V/
         set_player_class('Viking')

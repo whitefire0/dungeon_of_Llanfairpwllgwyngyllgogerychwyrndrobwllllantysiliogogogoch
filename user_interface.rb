@@ -16,28 +16,16 @@ class UserInterface
 
       get_player_action
 
-      if @chosen_action == 'walk'
-        unless @game_instance.tile_number > @game_instance.spent_tiles
-        reset_available_rests
-        @game_instance.get_new_tile
-        present_tile
-        # get_player_action
-        end
-      else
-
-      end
-      
-
-      # binding.pry
       case @chosen_action
+      when "walk"
+        unless @game_instance.tile_number > @game_instance.spent_tiles
+          move_forward_and_act
+        end
       when "attack"
         if @game_instance.current_tile.enemy
-          @game_instance.battle_mode
-          reset_player_action
-          @game_instance.spent_tiles += 1
-          exit_game? if @game_instance.player_char.is_dead
+          run_battle_sequence
         else
-          puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit."
+          render_message('attacking nothing')
         end
       when "rest"
         @game_instance.player_char.rest
@@ -58,51 +46,49 @@ class UserInterface
     end
   end
 
+  def run_battle_sequence
+    @game_instance.battle_mode
+    reset_player_action
+    @game_instance.spent_tiles += 1
+    exit_game? if @game_instance.player_char.is_dead
+  end
+
+  def move_forward_and_act
+    reset_available_rests
+    @game_instance.get_new_tile
+    present_tile
+    get_player_action
+  end
+
   def create_player
     unless @player_created
-      puts "Please enter your name, player: \n"
-      @game_instance.player_name = gets.chomp
+      render_message('get name')
+      # @game_instance.player_name = gets.chomp
       # *** FOR TESTING ***
-      # @game_instance.player_name = 'Rick'
+      @game_instance.player_name = 'Rick'
       @player_created = true
     end
   end
 
   def welcome_player
-    puts "Welcome to the dungeon, #{@game_instance.player_name} the #{@game_instance.player_char.class}! Untold glory awaits you.\n".colorize(:magenta)
+    render_message('welcome player')
     # binding.pry
-    puts "These are your character stats:\n
-        Age: #{@game_instance.player_char.age}
-        Health: #{@game_instance.player_char.health}
-        Strength: #{@game_instance.player_char.strength}
-        Constitution: #{@game_instance.player_char.constitution}
-        Intelligence: #{@game_instance.player_char.intelligence}
-        Dexterity: #{@game_instance.player_char.dexterity}
-        Your unique skill: #{@game_instance.player_char.unique_skills.first}\n".colorize(:blue)
+    render_message('character stats')
     @character_chosen = true
     sleep(2)
-    puts "It is here that we begin. If you are sure you wish to proceed, you must walk into the dungeon itself...\n".colorize(:light_green)
+    render_message('walk into dungeon')
   end
 
   def present_tile
     sleep(1)
-    puts "You step forward, into the next dungeon area, reaching tile #{@game_instance.tile_number}...".colorize(:light_green)
+    render_message('step forward')
     sleep(1)
-    puts @game_instance.current_tile.tile_description.colorize(:green)
+    render_message('tile description')
     sleep(1.5)
     if @game_instance.current_tile.enemy_present
-      puts "\nAn enemy has appeared! #{@game_instance.current_tile.enemy.name} the #{@game_instance.current_tile.enemy.class} is standing in front of you!\n".colorize(:light_red)
+      render_message('enemy appears')
       sleep(2)
-      puts "You take a look closer at the bastard, and see...\n
-            Name: #{@game_instance.current_tile.enemy.name}
-            Type: #{@game_instance.current_tile.enemy.class}
-            Age: #{@game_instance.current_tile.enemy.age}
-            Health: #{@game_instance.current_tile.enemy.health}
-            Strength: #{@game_instance.current_tile.enemy.strength}
-            Constitution: #{@game_instance.current_tile.enemy.constitution}
-            Intelligence: #{@game_instance.current_tile.enemy.intelligence}
-            Dexterity: #{@game_instance.current_tile.enemy.dexterity}
-            Unique Skill: #{@game_instance.current_tile.enemy.unique_skills}\n".colorize(:yellow)
+      render_message('inspect enemy')
     end
   end
 
@@ -111,11 +97,7 @@ class UserInterface
     # @chosen_action = 'attack'
     sleep(2)
     while @chosen_action == nil
-      puts "Player, make your choice:
-        w = Walk forward...further into the dungeon
-        a = Attack
-        r = Rest
-        i = Inspect area\n".colorize(:magenta)
+      render_message('choose action')
       response = gets.chomp
       case response
       when /^w|W/
@@ -127,7 +109,7 @@ class UserInterface
       when /^i|I/
         @chosen_action = 'inspect'
       else
-        puts "Invalid action. Please choose again.".colorize(:light_black)
+        render_message('invalid action')
       end
     end
   end
@@ -141,9 +123,10 @@ class UserInterface
   end
 
   def exit_game?
-    @play_again = nil
+    # do we need this nil?
+    # @play_again = nil
     while @play_again == nil do
-      puts "You have been defeated! Would you like to play again? (y/n)"
+      render_message('play again?')
       response = gets.chomp
       case response
       when /^y|Y/
@@ -151,10 +134,60 @@ class UserInterface
       when /^n|N/
         @play_again = false
       else
-        puts "Invalid answer. Please choose again.".colorize(:light_black)
+        render_message('invalid action')
       end
     end
 
     @game_instance.on = false if @play_again == false
+  end
+
+  def render_message(msg)
+    case msg
+    when 'attacking nothing'
+      puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit."
+    when 'get name'
+      puts "Please enter your name, player: \n".colorize(:magenta)
+    when 'welcome player'
+      puts "Welcome to the dungeon, #{@game_instance.player_name} the #{@game_instance.player_char.class}! Untold glory awaits you.\n".colorize(:magenta)
+    when 'character stats'
+      puts "These are your character stats:\n
+        Age: #{@game_instance.player_char.age}
+        Health: #{@game_instance.player_char.health}
+        Strength: #{@game_instance.player_char.strength}
+        Constitution: #{@game_instance.player_char.constitution}
+        Intelligence: #{@game_instance.player_char.intelligence}
+        Dexterity: #{@game_instance.player_char.dexterity}
+        Your unique skill: #{@game_instance.player_char.unique_skills.first}\n".colorize(:blue)
+    when 'walk into dungeon'
+      puts "It is here that we begin. If you are sure you wish to proceed, you must walk into the dungeon itself...\n".colorize(:light_green)
+    when 'step forward'
+      puts "You step forward, into the next dungeon area, reaching tile #{@game_instance.tile_number}...".colorize(:light_green)
+    when 'tile description'
+      puts @game_instance.current_tile.tile_description.colorize(:green)
+    when 'enemy appears'
+      puts "\nAn enemy has appeared! #{@game_instance.current_tile.enemy.name} the #{@game_instance.current_tile.enemy.class} is standing in front of you!\n".colorize(:light_red)
+    when 'inspect enemy'
+      puts "You take a look closer at the bastard, and see...\n
+            Name: #{@game_instance.current_tile.enemy.name}
+            Type: #{@game_instance.current_tile.enemy.class}
+            Age: #{@game_instance.current_tile.enemy.age}
+            Health: #{@game_instance.current_tile.enemy.health}
+            Strength: #{@game_instance.current_tile.enemy.strength}
+            Constitution: #{@game_instance.current_tile.enemy.constitution}
+            Intelligence: #{@game_instance.current_tile.enemy.intelligence}
+            Dexterity: #{@game_instance.current_tile.enemy.dexterity}
+            Unique Skill: #{@game_instance.current_tile.enemy.unique_skills}\n".colorize(:yellow)
+    when 'choose action'
+      puts "Player, make your choice:
+        w = Walk forward...further into the dungeon
+        a = Attack
+        r = Rest
+        i = Inspect area\n".colorize(:magenta)
+    when 'invalid action'
+      puts "Invalid action. Please choose again.".colorize(:light_black)
+    when 'play again?'
+      puts "You have been defeated! Would you like to play again? (y/n)"
+    else
+    end
   end
 end
