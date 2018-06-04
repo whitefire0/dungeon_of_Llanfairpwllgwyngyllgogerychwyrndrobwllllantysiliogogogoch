@@ -40,7 +40,7 @@ class UserInterface
       if @play_again
         return true
       else
-        return false
+        return false unless @game_instance.on
       end
     end
   end
@@ -70,7 +70,7 @@ class UserInterface
   end
 
   def present_tile
-    puts "You step forward, into the next dungeon area...".colorize(:light_green)
+    puts "You step forward, into the next dungeon area, reaching #{@game_instance.tile_number}...".colorize(:light_green)
     puts @game_instance.current_tile.tile_description.colorize(:green)
     if @game_instance.current_tile.enemy_present
       puts "\nAn enemy has appeared! #{@game_instance.current_tile.enemy.name} the #{@game_instance.current_tile.enemy.class} is standing in front of you!\n".colorize(:light_red)
