@@ -23,7 +23,10 @@ class Game
   #   instance_variable_set(var_name, object_name)
   # end
 
-  def create_character_instance(chosen_class)
+  def select_character_instance(chosen_class)
+    while 
+    puts "\nPlease choose your character class (v, b,w, r, c, g):\n"
+    chosen_class = gets.chomp
     case chosen_class
     when /^v|V/
       set_player_class('Viking')
@@ -41,19 +44,13 @@ class Game
       puts "Invalid choice, please choose again."
       @menu_instance.create_player
     end
-
-    if @player_char
-      # HACK: prevent recreation of character if already established from second+ call of create_player i.e. if user entered incorrect character type first time (limit print statement to once due to create_player and create_character_instance calling each other creating repeated stack frames)
-      # FIX: two loops calling each other - try inner method conditional looping
-      unless @player_char.instance_variables
-        binding.pry
-        @player_char = @player_char.create(@player_name)
-        @player_char.name << " the #{@player_char.class}"
-      end
-
-    end
   end
 
+  def create_character_instance
+    @player_char = @player_char.create(@player_name)
+    @player_char.name << " the #{@player_char.class}"
+  end
+    
   def set_player_class(classname)
     @player_char = Object.const_get(classname)
   end
@@ -89,9 +86,7 @@ class UserInterface
       @game_instance.player_name = gets.chomp
       @player_created = true
     end
-    puts "\nPlease choose your character class (v, b,w, r, c, g):\n"
-    chosen_class = gets.chomp
-    @game_instance.create_character_instance(chosen_class)
+    
 
     # HACK: limit print statement to once due to create_player and create_character_instance calling each other creating repeated stack frames
     print_num = 0
