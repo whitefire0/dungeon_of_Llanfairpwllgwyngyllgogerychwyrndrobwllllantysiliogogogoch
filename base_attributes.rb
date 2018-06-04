@@ -12,8 +12,8 @@ end
 
 class Character
   include BaseAttributes
-  attr_reader :name, :age, :health, :strength
-  attr_writer :health
+  attr_reader :name, :age, :health, :strength, :is_dead
+  attr_writer :health, :is_dead
 
   def initialize(attributes)
     create_base(attributes)
@@ -42,7 +42,7 @@ class Character
 
   def hit(enemy)
     modified_strength = fluctuate(self.strength)
-    puts "#{self.name} hit #{enemy.name} the #{enemy.class} for #{modified_strength} damage.".colorize(:red)
+    puts "#{self.name} the #{self.class} hit #{enemy.name} the #{enemy.class} for #{modified_strength} damage.".colorize(:red)
     enemy.take_damage(modified_strength)
   end
 
@@ -58,6 +58,7 @@ class Character
 
   def character_dead!
     puts "#{self.name} lost all their health points and has died!\n".colorize(:red)
+    @is_dead = true
   end
 
   def fluctuate(num)

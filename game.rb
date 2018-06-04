@@ -46,7 +46,7 @@ class Game
 
   def create_character_instance
     @player_char = @player_char.create(@player_name)
-    @player_char.name << " the #{@player_char.class}"
+    # @player_char.name << " the #{@player_char.class}"
     @menu_instance.welcome_player
   end
     
@@ -76,8 +76,10 @@ class Game
   end
 
   def battle_mode
-    player_attacks
-    enemy_attacks
+    while @player_char.health > 0 && @current_tile.enemy.health > 0 do
+      player_attacks unless @player_char.is_dead
+      enemy_attacks unless @current_tile.enemy.is_dead
+    end
   end
 
   def player_attacks
