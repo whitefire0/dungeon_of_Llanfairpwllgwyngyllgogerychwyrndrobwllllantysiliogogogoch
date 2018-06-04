@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs 
+  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, :spent_tiles
 
   def initialize
     @menu_instance = nil
@@ -8,6 +8,7 @@ class Game
     @player_name = nil
     @player_char = nil
     @tile_number = 0
+    @spent_tiles = 0
     @tile_type = nil
     @current_tile = nil
     generate_npcs

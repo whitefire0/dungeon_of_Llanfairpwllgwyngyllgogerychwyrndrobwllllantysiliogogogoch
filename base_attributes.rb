@@ -7,13 +7,15 @@ module BaseAttributes
     @constitution = attributes[:constitution]
     @dexterity = attributes[:dexterity]
     @intelligence = attributes[:intelligence]
+    @rests_per_turn = attributes[:rests_per_turn]
+    @rests_remaining = attributes[:rests_remaining]
   end
 end
 
 class Character
   include BaseAttributes
-  attr_reader :name, :age, :health, :strength, :constitution, :dexterity, :intelligence, :unique_skills, :is_dead
-  attr_writer :health, :is_dead
+  attr_reader :name, :age, :health, :strength, :constitution, :dexterity, :intelligence, :unique_skills, :is_dead, :rests_per_turn, :rests_remaining
+  attr_writer :health, :is_dead, :rests_per_turn, :rests_remaining
 
   def initialize(attributes)
     create_base(attributes)
@@ -30,7 +32,9 @@ class Character
       strength: [age / 2, 10].max,
       constitution: base_range,
       dexterity: base_range,
-      intelligence: base_range
+      intelligence: base_range,
+      rests_per_turn: 1,
+      rests_remaining: 1
     }
     self.new(attributes)
 
@@ -53,6 +57,17 @@ class Character
       puts "#{self.name} lost #{modified_damage} health points, and has #{self.health} points remaining\n".colorize(:red)
     else
       character_dead!
+    end
+  end
+
+  def rest
+    if self.rests_remaining > 0
+      heal_up = fluctuate(self.constitution)
+      self.health += heal_up
+      puts "You have healed for #{heal_up}"
+      self.rests_remaining -= 1
+    else
+      puts "You have no more rests available in this area, you must advance!"
     end
   end
 

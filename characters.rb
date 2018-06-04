@@ -28,6 +28,8 @@ class Barbarian < Character
     @constitution = (@constitution * 2).round
     @intelligence = (@intelligence * 0.31).round
     @dexterity = (@dexterity * 2).round
+    @rests_per_turn = @rests_per_turn * 3
+    @rests_remaining = @rests_remaining * 3
   end
 
   def add_unique_skills

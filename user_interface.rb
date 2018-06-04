@@ -14,21 +14,28 @@ class UserInterface
       @game_instance.select_character_instance unless @character_chosen
       @game_instance.on = true if @player_created && @character_chosen
 
-      @game_instance.get_new_tile
-      present_tile
-      get_player_action
+      unless @game_instance.tile_number > @game_instance.spent_tiles
+        reset_available_rests
+        @game_instance.get_new_tile
+        present_tile
+        # get_player_action
+      end
 
       # binding.pry
+      get_player_action
       case @chosen_action
       when "attack"
         if @game_instance.current_tile.enemy
           @game_instance.battle_mode
+          reset_player_action
+          @game_instance.spent_tiles += 1
           exit_game? if @game_instance.player_char.is_dead
         else
           puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit."
         end
       when "rest"
-        # code
+        @game_instance.player_char.rest
+        reset_player_action
       when "inspect"
         # code
       when "hide"
@@ -70,7 +77,7 @@ class UserInterface
   end
 
   def present_tile
-    puts "You step forward, into the next dungeon area, reaching #{@game_instance.tile_number}...".colorize(:light_green)
+    puts "You step forward, into the next dungeon area, reaching tile #{@game_instance.tile_number}...".colorize(:light_green)
     puts @game_instance.current_tile.tile_description.colorize(:green)
     if @game_instance.current_tile.enemy_present
       puts "\nAn enemy has appeared! #{@game_instance.current_tile.enemy.name} the #{@game_instance.current_tile.enemy.class} is standing in front of you!\n".colorize(:light_red)
@@ -89,7 +96,7 @@ class UserInterface
 
   def get_player_action
     # *** FOR TESTING ***
-    @chosen_action = 'attack'
+    # @chosen_action = 'attack'
     while @chosen_action == nil
       puts "Player, make your choice:
             a = attack
@@ -112,6 +119,14 @@ class UserInterface
     end
   end
 
+  def reset_player_action
+    @chosen_action = nil
+  end
+
+  def reset_available_rests
+    @game_instance.player_char.rests_remaining = @game_instance.player_char.rests_per_turn
+  end
+
   def exit_game?
     @play_again = nil
     while @play_again == nil do
@@ -128,14 +143,5 @@ class UserInterface
     end
 
     @game_instance.on = false if @play_again == false
-
-    # binding.pry
-    # if @play_again
-    #   @player_created = false
-    #   @character_chosen = false
-    #   @chosen_action = nil
-    # else
-    #   @game_instance.on = false
-    # end
   end
 end
