@@ -77,6 +77,7 @@ class Game
 
   def battle_mode
     player_attacks
+    enemy_attacks
   end
 
   def player_attacks
@@ -84,7 +85,7 @@ class Game
   end
 
   def enemy_attacks
-
+    current_tile.enemy.hit(player_char)
   end
 
 end
