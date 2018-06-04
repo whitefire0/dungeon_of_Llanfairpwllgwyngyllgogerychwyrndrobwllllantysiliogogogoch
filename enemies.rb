@@ -5,7 +5,9 @@ end
 
 class SewerRat < Enemy
   def roll_attribute_modifiers
-    @health -= 200 unless @health < 30
+    # BUG-01: Sewer rat health goes into minus - needs base adjustment or class adjustment
+    # @health -= 200 unless @health < 30 && @health < 0
+    @health = 45
     @strength = (@strength * 0.1).round
     @constitution = (@constitution * 0.1).round
     @intelligence = (@intelligence * 0.1).round

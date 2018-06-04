@@ -12,7 +12,7 @@ end
 
 class Character
   include BaseAttributes
-  attr_reader :name, :age, :health, :strength, :is_dead
+  attr_reader :name, :age, :health, :strength, :constitution, :dexterity, :intelligence, :unique_skills, :is_dead
   attr_writer :health, :is_dead
 
   def initialize(attributes)
@@ -26,7 +26,7 @@ class Character
     attributes = {
       name: name,
       age: age,
-      health: [age * 5, 300].min,
+      health: [age * 2, 300].min,
       strength: [age / 2, 10].max,
       constitution: base_range,
       dexterity: base_range,

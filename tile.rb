@@ -56,21 +56,21 @@ class Tile
   end
 
   def pick_enemy
-    @enemy = Goblin.create('Arse Itch')
+    # @enemy = Balrog.create('Arse Itch')
+    enemy_choice_probability = rand(100)
+    p = enemy_choice_probability
+    case
+    when p < 60 
+      @enemy = SewerRat.create('Ratlet')
+    when p >= 60 && p <= 80
+      @enemy = Goblin.create('Arse Itch')
+    when p > 80 && p <= 90
+      @enemy = Wreath.create('Nazgul')
+    when p > 90 && p <= 100
+      @enemy = Balrog.create('Beatrice')
+    else
+    end
     @enemy_present = true
-    # enemy_choice_probability = rand(100)
-    # p = enemy_choice_probability
-    # case
-    # when p < 60 then @enemy = SewerRat.create('Ratlet')
-    # when p > 60 && p < 80
-    #   @enemy = Goblin.create('Arse Itch')
-    # when p > 80 && p < 95
-    #   @enemy = Wreath.create('Nazgul')
-    # when p > 95 && p <= 100
-    #   @enemy = Balrog.create('Beatrice')
-    # else
-    # end
-    # @enemy = Enemy.new
   end
 
   def generate_1_in_5

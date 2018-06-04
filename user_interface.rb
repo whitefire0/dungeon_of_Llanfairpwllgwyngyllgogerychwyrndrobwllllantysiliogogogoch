@@ -52,15 +52,35 @@ class UserInterface
   end
 
   def welcome_player
-    puts "Welcome to the dungeon, #{@game_instance.player_name}! Untold glory awaits you.\n".colorize(:blue)
+    puts "Welcome to the dungeon, #{@game_instance.player_name} the #{@game_instance.player_char.class}! Untold glory awaits you.\n".colorize(:blue)
+    # binding.pry
+    puts "These are your character stats:\n
+        Age: #{@game_instance.player_char.age}
+        Health: #{@game_instance.player_char.health}
+        Strength: #{@game_instance.player_char.strength}
+        Constitution: #{@game_instance.player_char.constitution}
+        Intelligence: #{@game_instance.player_char.intelligence}
+        Dexterity: #{@game_instance.player_char.dexterity}
+        Your unique skill: #{@game_instance.player_char.unique_skills.first}\n".colorize(:blue)
     @character_chosen = true
   end
 
   def present_tile
+    
     puts "You step forward, into the next dungeon area...".colorize(:light_green)
     puts @game_instance.current_tile.tile_description.colorize(:green)
     if @game_instance.current_tile.enemy_present
       puts "\nAn enemy has appeared! #{@game_instance.current_tile.enemy.name} the #{@game_instance.current_tile.enemy.class} is standing in front of you!\n".colorize(:light_red)
+      puts "You take a look closer at the bastard, and see...\n
+            Name: #{@game_instance.current_tile.enemy.name}
+            Type: #{@game_instance.current_tile.enemy.class}
+            Age: #{@game_instance.current_tile.enemy.age}
+            Health: #{@game_instance.current_tile.enemy.health}
+            Strength: #{@game_instance.current_tile.enemy.strength}
+            Constitution: #{@game_instance.current_tile.enemy.constitution}
+            Intelligence: #{@game_instance.current_tile.enemy.intelligence}
+            Dexterity: #{@game_instance.current_tile.enemy.dexterity}
+            Unique Skill: #{@game_instance.current_tile.enemy.unique_skills}\n".colorize(:yellow)
     end
   end
 
@@ -68,7 +88,11 @@ class UserInterface
     # *** FOR TESTING ***
     @chosen_action = 'attack'
     while @chosen_action == nil
-      puts "Player, make your choice: (a, r, i, h)"
+      puts "Player, make your choice:
+            a = attack
+            r = rest
+            i = inspect area
+            h = hide\n"
       response = gets.chomp
       case response
       when /^a|A/
