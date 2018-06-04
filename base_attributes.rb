@@ -33,6 +33,7 @@ class Character
       intelligence: base_range
     }
     self.new(attributes)
+    
   end
 
   def self.base_range

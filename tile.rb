@@ -4,8 +4,7 @@ class Tile
   def initialize
     roll_tile_type
     select_tile_description
-    roll_enemy_chance
-    pick_enemy if @enemy_present
+    pick_enemy if roll_enemy_chance
     roll_item_chance
     pick_item if @item_present
   end
@@ -44,7 +43,8 @@ class Tile
   end
 
   def roll_enemy_chance
-    @enemy_present = generate_1_in_5
+    # @enemy_present = generate_1_in_5
+    true
   end
 
   def roll_item_chance
@@ -56,19 +56,20 @@ class Tile
   end
 
   def pick_enemy
-    enemy_choice_probability = rand(100)
-    p = enemy_choice_probability
-    case
-    when p < 60 then @enemy = SewerRat.new('Ratlet')
-    when p > 60 && p < 80
-      @enemy = Goblin.new('Arse Itch')
-    when p > 80 && p < 95
-      @enemy = Wreath.new('Nazgul')
-    when p > 95 && p <= 100
-      @enemy = Balrog.new('Beatrice')
-    else
-    end
-    @enemy = Enemy.new
+    @enemy = Goblin.create('Arse Itch')
+    # enemy_choice_probability = rand(100)
+    # p = enemy_choice_probability
+    # case
+    # when p < 60 then @enemy = SewerRat.create('Ratlet')
+    # when p > 60 && p < 80
+    #   @enemy = Goblin.create('Arse Itch')
+    # when p > 80 && p < 95
+    #   @enemy = Wreath.create('Nazgul')
+    # when p > 95 && p <= 100
+    #   @enemy = Balrog.create('Beatrice')
+    # else
+    # end
+    # @enemy = Enemy.new
   end
 
   def generate_1_in_5
