@@ -48,6 +48,8 @@ class Wizard < Character
     @constitution = (@constitution * 0.5).round
     @intelligence = (@intelligence * 3).round
     @dexterity = (@dexterity * 1.25).round
+    @rests_per_turn = 1
+    @rests_remaining = 1
   end
 
   def add_unique_skills
@@ -66,6 +68,8 @@ class Rogue < Character
     @constitution = (@constitution * 1.1).round
     @intelligence = (@intelligence * 0.75).round
     @dexterity = (@dexterity * 1.5).round
+    @rests_per_turn = @rests_per_turn * 2
+    @rests_remaining = @rests_remaining * 2
   end
 
   def add_unique_skills
@@ -84,6 +88,8 @@ class Cleric < Character
     @constitution = (@constitution * 0.9).round
     @intelligence = (@intelligence * 2).round
     @dexterity = (@dexterity * 1.5).round
+    @rests_per_turn = @rests_per_turn * 2
+    @rests_remaining = @rests_remaining * 2
   end
 
   def add_unique_skills
@@ -95,13 +101,14 @@ end
 
 class Gimp < Character
   attr_reader :name
-
   def roll_attribute_modifiers
     @health += 1000
     @strength = (@strength * 0.1).round
     @constitution = (@constitution * 3).round
     @intelligence = (@intelligence * 0.25).round
     @dexterity = (@dexterity * 0.5).round
+    @rests_per_turn = 0
+    @rests_remaining = 0
   end
 
   def add_unique_skills

@@ -23,9 +23,9 @@ class Game
               r = Rogue 
               c = Cleric 
               g = Gimp\n".colorize(:magenta)
-      # chosen_class = gets.chomp
+      chosen_class = gets.chomp
       # *** FOR TESTING ***
-      chosen_class = 'v'
+      # chosen_class = 'v'
       case chosen_class
       when /^v|V/
         set_player_class('Viking')
@@ -84,10 +84,12 @@ class Game
   end
 
   def player_attacks
+    sleep(0.35)
     player_char.hit(current_tile.enemy)
   end
 
   def enemy_attacks
+    sleep(0.35)
     current_tile.enemy.hit(player_char)
   end
 
