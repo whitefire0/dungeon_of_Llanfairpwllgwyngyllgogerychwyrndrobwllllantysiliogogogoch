@@ -74,12 +74,11 @@ class UserInterface
           reset_player_action
         end
         unless tile_unspent || enemy_is_present
-          # binding.pry
           move_forward_and_act
           reset_player_action
         end
       when "attack"
-        if @game_instance.current_tile.enemy
+        if @game_instance.current_tile.enemy_present
           run_battle_sequence
           reset_player_action
         else
@@ -105,9 +104,8 @@ class UserInterface
 
   def run_battle_sequence
     @game_instance.battle_mode
-    reset_player_action
     @game_instance.spent_tiles += 1
-    exit_game? if @game_instance.player_char.is_dead
+    exit_game? if @game_instance.player_char.is_dead   
   end
 
   def move_forward_and_act
@@ -120,7 +118,6 @@ class UserInterface
   def enemy_is_present
     unless @game_instance.current_tile == nil
       @game_instance.current_tile.enemy_present
-      reset_player_action
     end
   end
 
@@ -136,7 +133,6 @@ class UserInterface
 
   def welcome_player
     render_message('welcome player')
-    # binding.pry
     render_message('character stats')
     @character_chosen = true
     sleep(2) unless dev_mode
@@ -160,9 +156,11 @@ class UserInterface
     # *** FOR TESTING ***
     # @chosen_action = 'attack'
     sleep(2) unless dev_mode
+    # binding.pry
     while @chosen_action == nil
       render_message('choose action')
       response = gets.chomp
+      puts "\n"
       case response
       when /^w|W/
         @chosen_action = 'walk'
@@ -328,7 +326,8 @@ class UserInterface
         r = Rest
         i = Inspect area\n".colorize(:magenta)
     when 'hit'
-      puts "#{@game_instance.last_attacking_char.name} the #{@game_instance.last_attacking_char.class} hit #{@game_instance.last_defending_char.name} the #{@game_instance.last_defending_char.class} for #{@game_instance.last_damage_dealt} hitpoints, and has #{@game_instance.last_defending_char.health} health remaining\n".colorize(:red)
+      puts "#{@game_instance.last_attacking_char.name} the #{@game_instance.last_attacking_char.class} hit #{@game_instance.last_defending_char.name} the #{@game_instance.last_defending_char.class} for #{@game_instance.last_damage_dealt} hitpoints".colorize(:red) 
+      puts "#{@game_instance.last_defending_char.name} has #{@game_instance.last_defending_char.health} health remaining\n".colorize(:red)
     when 'heal'
       puts "#{player_name} the #{player_class} healed for #{@healed} hitpoints\n".colorize(:red)
     when 'no more rests'
@@ -336,10 +335,11 @@ class UserInterface
     when 'died'
       if @game_instance.player_char.is_dead
         puts "#{player_name} lost all their health points and has died!\n".colorize(:red)
-      elsif @game_instance.current_tile.enemy.is_dead
-        puts "#{enemy_name} lost all their health points and has died!\n".colorize(:red)
+      elsif @game_instance.current_tile.enemy.class == NilClass
+        puts "#{@game_instance.previous_enemy.name} lost all their health points and has died!\n".colorize(:red)
       end
     when 'enemy blocking'
+      binding.pry
       puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!"
     when 'invalid action'
       puts "Invalid action. Please choose again.".colorize(:light_black)

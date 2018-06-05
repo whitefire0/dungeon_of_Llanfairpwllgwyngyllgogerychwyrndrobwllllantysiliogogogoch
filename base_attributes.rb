@@ -54,8 +54,13 @@ class Character
     modified_damage = fluctuate(damage)
     self.health -= modified_damage
     if self.health < 1
+      health_is_zero
       character_dead!
     end
+  end
+
+  def health_is_zero
+    self.health = 0
   end
 
   def rest
@@ -71,7 +76,8 @@ class Character
 
   def character_dead!
     @is_dead = true
-    self.health < 0
+    # self.health < 0
+    
   end
 
   def fluctuate(num)

@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char
+  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy
 
   def initialize
     @menu_instance = nil
@@ -47,25 +47,34 @@ class Game
   end
 
   def battle_mode
-    while @player_char.health > 0 && @current_tile.enemy.health > 0 do
+    both_alive = true
+    while both_alive do
       unless @player_char.is_dead
         @last_attacking_char = @player_char
         @last_damage_dealt = player_attacks
         @last_defending_char = @current_tile.enemy
         @menu_instance.render_message('hit')
+      else
+        both_alive = false
       end
       unless @current_tile.enemy.is_dead
         @last_attacking_char = @current_tile.enemy
         @last_damage_dealt = enemy_attacks
         @last_defending_char = @player_char
         @menu_instance.render_message('hit')
+      else
+        both_alive = false
       end
     end
     if @player_char.health <= 0
       @player_char.character_dead!
     end
     if @current_tile.enemy.health <= 0
-      @current_tile.enemy.character_dead!
+      # binding.pry
+      # @current_tile.enemy.character_dead!
+      @previous_enemy = @current_tile.enemy
+      @current_tile.enemy = nil
+      @current_tile.enemy_present = false
     end
     @menu_instance.render_message('died')
   end
