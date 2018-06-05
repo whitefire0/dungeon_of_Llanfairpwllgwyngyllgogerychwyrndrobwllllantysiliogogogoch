@@ -43,8 +43,9 @@ class Tile
   end
 
   def roll_enemy_chance
-    # @enemy_present = generate_1_in_5
-    true
+    @enemy_present = generate_1_in_5
+    # *** FOR TESTING ONLY ***
+    # true
   end
 
   def roll_item_chance

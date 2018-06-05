@@ -4,7 +4,7 @@ class Game
   def initialize
     @menu_instance = nil
     @on = true
-    @delays_off = true
+    @delays_off = false
     @player_created = false
     @player_name = nil
     @player_char = nil
@@ -47,31 +47,41 @@ class Game
   end
 
   def battle_mode
-    both_alive = true
-    while both_alive do
-      unless @player_char.is_dead
-        @last_attacking_char = @player_char
-        @last_damage_dealt = player_attacks
-        @last_defending_char = @current_tile.enemy
-        @menu_instance.render_message('hit')
-      else
-        both_alive = false
-      end
-      unless @current_tile.enemy.is_dead
-        @last_attacking_char = @current_tile.enemy
-        @last_damage_dealt = enemy_attacks
-        @last_defending_char = @player_char
-        @menu_instance.render_message('hit')
-      else
-        both_alive = false
-      end
+    @both_alive = true
+    while @both_alive do
+      player_turn
+      enemy_turn
     end
+    who_won
+  end
+
+  def player_turn
+    unless @player_char.is_dead
+      @last_attacking_char = @player_char
+      @last_damage_dealt = player_attacks
+      @last_defending_char = @current_tile.enemy
+      @menu_instance.render_message('hit')
+    else
+      @both_alive = false
+    end
+  end
+
+  def enemy_turn
+    unless @current_tile.enemy.is_dead
+      @last_attacking_char = @current_tile.enemy
+      @last_damage_dealt = enemy_attacks
+      @last_defending_char = @player_char
+      @menu_instance.render_message('hit')
+    else
+      @both_alive = false
+    end
+  end
+
+  def who_won
     if @player_char.health <= 0
       @player_char.character_dead!
     end
     if @current_tile.enemy.health <= 0
-      # binding.pry
-      # @current_tile.enemy.character_dead!
       @previous_enemy = @current_tile.enemy
       @current_tile.enemy = nil
       @current_tile.enemy_present = false

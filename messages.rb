@@ -24,6 +24,7 @@ module Messages
       puts "You step forward, into the next dungeon area, reaching tile #{@game_instance.tile_number}...".colorize(:light_green)
     when 'tile description'
       puts @game_instance.current_tile.tile_description.colorize(:green)
+      puts "\n\n"
     when 'enemy appears'
       puts "\nAn enemy has appeared! #{enemy_name} the #{enemy_class} is standing in front of you!\n".colorize(:light_red)
     when 'inspect enemy'
