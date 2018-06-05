@@ -117,3 +117,26 @@ class Gimp < Character
     }
   end
 end
+
+class SwagLord < Character
+  attr_reader :name
+  def roll_attribute_modifiers
+    @health += 9999
+    @strength = (@strength * 9999).round
+    @constitution = (@constitution * 9999).round
+    @intelligence = (@intelligence * 9999).round
+    @dexterity = (@dexterity * 9999).round
+    @rests_per_turn = 0
+    @rests_remaining = -1 # rest is for the weak
+  end
+
+  def add_unique_skills
+    # no need for hide, pray or submit
+    # everything else has to be over 9000
+    @unique_skills = {
+      blocks: 9999,
+      cast_fireball: 9999,
+      triple_smash: 9999
+    }
+  end
+end
