@@ -24,6 +24,9 @@ For Dan:
 
   UserInterface and Game are TIGHTLY woven together (they contain a reference to the instance of each other and call upon it to access state data the other contains). Is this this a bad thing in this use case?
 
+Refactoring
+  getting Character to have smaller methods that return values and use those as the messages back to the Game, which in turn messages UserInterface
+
 Testing root_controller actions
 
   case 1

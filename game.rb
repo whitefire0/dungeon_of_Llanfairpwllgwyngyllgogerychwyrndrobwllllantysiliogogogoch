@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, :spent_tiles, :delays_off
+  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char
 
   def initialize
     @menu_instance = nil
@@ -14,8 +14,6 @@ class Game
     @current_tile = nil
     generate_npcs
   end
-
-  
 
   def create_character_instance
     @player_char = @player_char.create(@player_name)
@@ -50,19 +48,38 @@ class Game
 
   def battle_mode
     while @player_char.health > 0 && @current_tile.enemy.health > 0 do
-      player_attacks unless @player_char.is_dead
-      enemy_attacks unless @current_tile.enemy.is_dead
+      unless @player_char.is_dead
+        @last_attacking_char = @player_char
+        @last_damage_dealt = player_attacks
+        @last_defending_char = @current_tile.enemy
+        @menu_instance.render_message('hit')
+      end
+      unless @current_tile.enemy.is_dead
+        @last_attacking_char = @current_tile.enemy
+        @last_damage_dealt = enemy_attacks
+        @last_defending_char = @player_char
+        @menu_instance.render_message('hit')
+      end
     end
+    if @player_char.health <= 0
+      @player_char.character_dead!
+    end
+    if @current_tile.enemy.health <= 0
+      @current_tile.enemy.character_dead!
+    end
+    @menu_instance.render_message('died')
   end
 
   def player_attacks
     sleep(0.35) unless @menu_instance.dev_mode
-    player_char.hit(current_tile.enemy)
+    damage = player_char.hit(current_tile.enemy)
+    damage
   end
 
   def enemy_attacks
     sleep(0.35) unless @menu_instance.dev_mode
-    current_tile.enemy.hit(player_char)
+    damage = current_tile.enemy.hit(player_char)
+    damage
   end
 
 end

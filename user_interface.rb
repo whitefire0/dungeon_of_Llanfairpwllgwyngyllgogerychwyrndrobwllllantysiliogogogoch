@@ -86,7 +86,12 @@ class UserInterface
           render_message('attacking nothing')
         end
       when "rest"
-        @game_instance.player_char.rest
+        @healed = @game_instance.player_char.rest
+        if @healed
+          render_message('heal')
+        else
+          render_message('no more rests')
+        end
         reset_player_action
       when "inspect"
         # code
@@ -323,13 +328,17 @@ class UserInterface
         r = Rest
         i = Inspect area\n".colorize(:magenta)
     when 'hit'
-      # REFACTOR: requires either Character to have a reference to menu_instance, or to move def hit into Game and make Game aware whether player or enemy is currently attacking
-    when 'took damage'
-      # REFACTOR: requires either Character to have a reference to menu_instance, or to move def hit into Game and make Game aware whether player or enemy is currently attacking
+      puts "#{@game_instance.last_attacking_char.name} the #{@game_instance.last_attacking_char.class} hit #{@game_instance.last_defending_char.name} the #{@game_instance.last_defending_char.class} for #{@game_instance.last_damage_dealt} hitpoints, and has #{@game_instance.last_defending_char.health} health remaining\n".colorize(:red)
+    when 'heal'
+      puts "#{player_name} the #{player_class} healed for #{@healed} hitpoints\n".colorize(:red)
     when 'no more rests'
-      # REFACTOR: requires either Character to have a reference to menu_instance, or to move def hit into Game and make Game aware whether player or enemy is currently attacking
+      puts "You have no more rests remaining in this area...you must advance!".colorize(:red)
     when 'died'
-      # REFACTOR: requires either Character to have a reference to menu_instance, or to move def hit into Game and make Game aware whether player or enemy is currently attacking
+      if @game_instance.player_char.is_dead
+        puts "#{player_name} lost all their health points and has died!\n".colorize(:red)
+      elsif @game_instance.current_tile.enemy.is_dead
+        puts "#{enemy_name} lost all their health points and has died!\n".colorize(:red)
+      end
     when 'enemy blocking'
       puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!"
     when 'invalid action'

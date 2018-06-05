@@ -46,16 +46,14 @@ class Character
 
   def hit(enemy)
     modified_strength = fluctuate(self.strength)
-    
     enemy.take_damage(modified_strength)
+    modified_strength
   end
 
   def take_damage(damage)
     modified_damage = fluctuate(damage)
     self.health -= modified_damage
-    if self.health > 0
-      puts "#{self.name} lost #{modified_damage} health points, and has #{self.health} points remaining\n".colorize(:red)
-    else
+    if self.health < 1
       character_dead!
     end
   end
@@ -64,27 +62,19 @@ class Character
     if self.rests_remaining > 0
       heal_up = fluctuate(self.constitution)
       self.health += heal_up
-      puts "You have healed for #{heal_up}"
       self.rests_remaining -= 1
+      heal_up
     else
-      puts "You have no more rests available in this area, you must advance!"
+      nil
     end
   end
 
   def character_dead!
-    puts "#{self.name} lost all their health points and has died!\n".colorize(:red)
     @is_dead = true
+    self.health < 0
   end
 
   def fluctuate(num)
     (num * (rand(0.7..1.0))).round
   end
-
-  # def is_enemy_alive?(enemy)
-  #   enemy.health > 0
-  # end
-
-  # def is_self_alive?
-  #   self.health > 0
-  # end
 end
