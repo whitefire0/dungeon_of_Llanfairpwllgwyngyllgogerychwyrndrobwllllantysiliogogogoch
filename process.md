@@ -14,6 +14,8 @@ present tile to player
   repeat until dungeon complete (initially 10 tiles), or character dies
 on completion or death, log game details in a local text file
 
+on completion, generate a simulator that runs the game automatically and compiles stats on wins/losses to check for character/enemy/event balancing
+
 
 
 git ls-files | xargs cat | wc -l

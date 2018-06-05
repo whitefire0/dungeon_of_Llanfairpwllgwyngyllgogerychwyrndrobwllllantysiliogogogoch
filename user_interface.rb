@@ -92,19 +92,31 @@ class UserInterface
         end
         reset_player_action
       when "rest"
-        @healed = @game_instance.player_char.rest
+        if @game_instance.current_tile
+          @healed = @game_instance.player_char.rest
         if @healed
           render_message('heal')
         else
           render_message('no more rests')
         end
+        else
+          render_message('outside dungeon')
+        end
         reset_player_action
       when "inspect"
-        # code
+        if @game_instance.current_tile
+          # code
+        else
+          render_message('outside dungeon')
+        end
         reset_player_action        
       when "hide"
-        # code
-        reset_player_action        
+        if @game_instance.current_tile
+          # code
+        else
+          render_message('outside dungeon')
+        end
+        reset_player_action             
       else
     end
   end
@@ -294,6 +306,8 @@ class UserInterface
     case msg
     when 'attacking nothing'
       puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit.\n\n"
+    when 'outside dungeon'
+      puts "You are still standing outside the dungeon...get on with it!\n\n"
     when 'get name'
       puts "Please enter your name, player: \n".colorize(:magenta)
     when 'welcome player'
@@ -349,7 +363,7 @@ class UserInterface
       # binding.pry
       puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!\n\n"
     when 'invalid action'
-      puts "Invalid action. Please choose again.".colorize(:light_black)
+      puts "Invalid action. Please choose again.\n\n".colorize(:light_black)
     when 'not now'
       puts "\nYou can't do that right now\n\n"
     when 'play again?'
