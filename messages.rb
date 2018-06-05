@@ -43,7 +43,12 @@ module Messages
         w = Walk forward...further into the dungeon
         a = Attack
         r = Rest
-        i = Inspect area\n".colorize(:magenta)
+        i = Inspect area
+        u = Use item
+        d = Dance
+        e = Retreat
+        s = Save and exit
+        x = Exit\n".colorize(:magenta)
     when 'hit'
       puts "#{@game_instance.last_attacking_char.name} the #{@game_instance.last_attacking_char.class} hit #{@game_instance.last_defending_char.name} the #{@game_instance.last_defending_char.class} for #{@game_instance.last_damage_dealt} hitpoints".colorize(:red) 
       puts "#{@game_instance.last_defending_char.name} has #{@game_instance.last_defending_char.health} health remaining\n".colorize(:red)

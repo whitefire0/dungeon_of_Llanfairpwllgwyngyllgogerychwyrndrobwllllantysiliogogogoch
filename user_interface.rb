@@ -76,7 +76,13 @@ class UserInterface
       when "inspect"
         inspect        
       when "hide"
-        hide            
+        hide
+      when "use item"
+        hide
+      when "dance"
+      when "retreat"
+      when "save and exit"
+      when "exit"             
       else
     end
   end
@@ -212,6 +218,16 @@ class UserInterface
         @chosen_action = 'rest'
       when /^i|I/
         @chosen_action = 'inspect'
+      when /^u|U/
+        @chosen_action = 'use'
+      when /^d|D/
+        @chosen_action = 'dance'
+      when /^e|E/
+        @chosen_action = 'retreat'
+      when /^s|S/
+        @chosen_action = 'save and exit'
+      when /^x|X/
+        @chosen_action = 'exit'
       else
         render_message('invalid action')
       end
