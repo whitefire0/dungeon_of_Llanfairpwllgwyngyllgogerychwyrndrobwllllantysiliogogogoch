@@ -1,5 +1,7 @@
 # UserInterface will eventually shield the entire inner application, exposing only accepted commands
 class UserInterface
+  attr_accessor :delays_off
+
   def initialize(game)
     @game_instance = game
     @player_created = false
@@ -33,11 +35,20 @@ class UserInterface
     case @chosen_action
       when "walk"
         unless @game_instance.tile_number > @game_instance.spent_tiles
+          # binding.pry
           move_forward_and_act
+          # binding.pry
+          unless @game_instance.current_tile.enemy_present
+          move_forward_and_act
+          reset_player_action
+          else
+            render_message('enemy blocking')
+          end
         end
       when "attack"
         if @game_instance.current_tile.enemy
           run_battle_sequence
+          reset_player_action
         else
           render_message('attacking nothing')
         end
@@ -46,8 +57,10 @@ class UserInterface
         reset_player_action
       when "inspect"
         # code
+        reset_player_action        
       when "hide"
         # code
+        reset_player_action        
       else
     end
   end
@@ -81,19 +94,19 @@ class UserInterface
     # binding.pry
     render_message('character stats')
     @character_chosen = true
-    sleep(2)
+    sleep(2) unless dev_mode
     render_message('walk into dungeon')
   end
 
   def present_tile
-    sleep(1)
+    sleep(1) unless dev_mode
     render_message('step forward')
-    sleep(1)
+    sleep(1) unless dev_mode
     render_message('tile description')
-    sleep(1.5)
+    sleep(1.5) unless dev_mode
     if @game_instance.current_tile.enemy_present
       render_message('enemy appears')
-      sleep(2)
+      sleep(2) unless dev_mode
       render_message('inspect enemy')
     end
   end
@@ -101,7 +114,7 @@ class UserInterface
   def get_player_action
     # *** FOR TESTING ***
     # @chosen_action = 'attack'
-    sleep(2)
+    sleep(2) unless dev_mode
     while @chosen_action == nil
       render_message('choose action')
       response = gets.chomp
@@ -147,6 +160,10 @@ class UserInterface
     @game_instance.on = false if @play_again == false
   end
 
+  def dev_mode
+     @game_instance.delays_off
+  end
+
   def render_message(msg)
     case msg
     when 'attacking nothing'
@@ -154,16 +171,16 @@ class UserInterface
     when 'get name'
       puts "Please enter your name, player: \n".colorize(:magenta)
     when 'welcome player'
-      puts "Welcome to the dungeon, #{@game_instance.player_name} the #{@game_instance.player_char.class}! Untold glory awaits you.\n".colorize(:magenta)
+      puts "Welcome to the dungeon, #{player_name} the #{player_class}! Untold glory awaits you.\n".colorize(:magenta)
     when 'character stats'
       puts "These are your character stats:\n
-        Age: #{@game_instance.player_char.age}
-        Health: #{@game_instance.player_char.health}
-        Strength: #{@game_instance.player_char.strength}
-        Constitution: #{@game_instance.player_char.constitution}
-        Intelligence: #{@game_instance.player_char.intelligence}
-        Dexterity: #{@game_instance.player_char.dexterity}
-        Your unique skill: #{@game_instance.player_char.unique_skills.first}\n".colorize(:blue)
+        Age: #{player_age}
+        Health: #{player_health}
+        Strength: #{player_strength}
+        Constitution: #{player_constitution}
+        Intelligence: #{player_intelligence}
+        Dexterity: #{player_dexterity}
+        Your unique skill: #{player_unique_skills}\n".colorize(:blue)
     when 'walk into dungeon'
       puts "It is here that we begin. If you are sure you wish to proceed, you must walk into the dungeon itself...\n".colorize(:light_green)
     when 'step forward'
@@ -171,29 +188,103 @@ class UserInterface
     when 'tile description'
       puts @game_instance.current_tile.tile_description.colorize(:green)
     when 'enemy appears'
-      puts "\nAn enemy has appeared! #{@game_instance.current_tile.enemy.name} the #{@game_instance.current_tile.enemy.class} is standing in front of you!\n".colorize(:light_red)
+      puts "\nAn enemy has appeared! #{enemy_name} the #{enemy_class} is standing in front of you!\n".colorize(:light_red)
     when 'inspect enemy'
       puts "You take a look closer at the bastard, and see...\n
-            Name: #{@game_instance.current_tile.enemy.name}
-            Type: #{@game_instance.current_tile.enemy.class}
-            Age: #{@game_instance.current_tile.enemy.age}
-            Health: #{@game_instance.current_tile.enemy.health}
-            Strength: #{@game_instance.current_tile.enemy.strength}
-            Constitution: #{@game_instance.current_tile.enemy.constitution}
-            Intelligence: #{@game_instance.current_tile.enemy.intelligence}
-            Dexterity: #{@game_instance.current_tile.enemy.dexterity}
-            Unique Skill: #{@game_instance.current_tile.enemy.unique_skills}\n".colorize(:yellow)
+            Name: #{enemy_name}
+            Type: #{enemy_class}
+            Age: #{enemy_age}
+            Health: #{enemy_health}
+            Strength: #{enemy_strength}
+            Constitution: #{enemy_constitution}
+            Intelligence: #{enemy_intelligence}
+            Dexterity: #{enemy_dexterity}
+            Unique Skill: #{enemy_unique_skills}\n".colorize(:yellow)
     when 'choose action'
       puts "Player, make your choice:
         w = Walk forward...further into the dungeon
         a = Attack
         r = Rest
         i = Inspect area\n".colorize(:magenta)
+    when 'enemy blocking'
+      puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!"
     when 'invalid action'
       puts "Invalid action. Please choose again.".colorize(:light_black)
     when 'play again?'
       puts "You have been defeated! Would you like to play again? (y/n)"
     else
     end
+  end
+
+  def player_name
+    @game_instance.player_char.name
+  end
+
+  def player_class
+    @game_instance.player_char.class
+  end
+  
+  def player_age
+    @game_instance.player_char.age
+  end
+
+  def player_health
+    @game_instance.player_char.health
+  end
+
+  def player_strength
+    @game_instance.player_char.strength
+  end
+
+  def player_constitution
+    @game_instance.player_char.constitution
+  end
+
+  def player_intelligence
+    @game_instance.player_char.intelligence
+  end
+
+  def player_dexterity
+    @game_instance.player_char.dexterity
+  end
+
+  def player_unique_skills
+    @game_instance.player_char.unique_skills
+  end
+
+  def enemy_name
+    @game_instance.current_tile.enemy.name
+  end
+
+  def enemy_class
+    @game_instance.current_tile.enemy.class
+  end
+  
+  def enemy_age
+    @game_instance.current_tile.enemy.age
+  end
+
+  def enemy_health
+    @game_instance.current_tile.enemy.health
+  end
+
+  def enemy_strength
+    @game_instance.current_tile.enemy.strength
+  end
+
+  def enemy_constitution
+    @game_instance.current_tile.enemy.constitution
+  end
+
+  def enemy_intelligence
+    @game_instance.current_tile.enemy.intelligence
+  end
+
+  def enemy_dexterity
+    @game_instance.current_tile.enemy.dexterity
+  end
+
+  def enemy_unique_skills
+    @game_instance.current_tile.enemy.unique_skills
   end
 end

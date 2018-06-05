@@ -17,3 +17,10 @@ on completion or death, log game details in a local text file
 
 
 git ls-files | xargs cat | wc -l
+
+
+For Dan:
+  really not a fan of nested if/else/unless statements. Is this a code smell if they are only 2 layers deep?
+
+  UserInterface and Game are TIGHTLY woven together (they contain a reference to the instance of each other and call upon it to access state data the other contains). Is this this a bad thing in this use case?
+

@@ -1,9 +1,10 @@
 class Game
-  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, :spent_tiles
+  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, :spent_tiles, :delays_off
 
   def initialize
     @menu_instance = nil
     @on = true
+    @delays_off = true
     @player_created = false
     @player_name = nil
     @player_char = nil
@@ -84,12 +85,12 @@ class Game
   end
 
   def player_attacks
-    sleep(0.35)
+    sleep(0.35) unless @menu_instance.dev_mode
     player_char.hit(current_tile.enemy)
   end
 
   def enemy_attacks
-    sleep(0.35)
+    sleep(0.35) unless @menu_instance.dev_mode
     current_tile.enemy.hit(player_char)
   end
 
