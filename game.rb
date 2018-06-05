@@ -15,36 +15,7 @@ class Game
     generate_npcs
   end
 
-  def select_character_instance
-    while @player_char.class == NilClass
-      puts "\nPlease choose your character class:
-              v = Viking 
-              b = Barbarian
-              w = Wizard 
-              r = Rogue 
-              c = Cleric 
-              g = Gimp\n".colorize(:magenta)
-      # chosen_class = gets.chomp
-      # *** FOR TESTING ***
-      chosen_class = 'v'
-      case chosen_class
-      when /^v|V/
-        set_player_class('Viking')
-      when /^b|B/
-        set_player_class('Barbarian')
-      when /^w|W/
-        set_player_class('Wizard')
-      when /^r|R/
-        set_player_class('Rogue')
-      when /^c|C/
-        set_player_class('Cleric')
-      when /^g|G/
-        set_player_class('Gimp')
-      else
-        puts "Invalid choice, please choose again.".colorize(:light_black)
-      end
-    end
-  end
+  
 
   def create_character_instance
     @player_char = @player_char.create(@player_name)

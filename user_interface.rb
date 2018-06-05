@@ -27,15 +27,52 @@ class UserInterface
 
   def player_creation_if_needed
     create_player unless @player_created
-    @game_instance.select_character_instance unless @character_chosen
+    select_character_instance unless @character_chosen
     @game_instance.on = true if @player_created && @character_chosen
+  end
+
+  def select_character_instance
+    while player_class == NilClass
+      puts "\nPlease choose your character class:
+              v = Viking 
+              b = Barbarian
+              w = Wizard 
+              r = Rogue 
+              c = Cleric 
+              g = Gimp\n".colorize(:magenta)
+      # chosen_class = gets.chomp
+      # *** FOR TESTING ***
+      chosen_class = 'v'
+      case chosen_class
+      when /^v|V/
+        @game_instance.set_player_class('Viking')
+      when /^b|B/
+        @game_instance.set_player_class('Barbarian')
+      when /^w|W/
+        @game_instance.set_player_class('Wizard')
+      when /^r|R/
+        @game_instance.set_player_class('Rogue')
+      when /^c|C/
+        @game_instance.set_player_class('Cleric')
+      when /^g|G/
+        @game_instance.set_player_class('Gimp')
+      else
+        puts "Invalid choice, please choose again.".colorize(:light_black)
+      end
+    end
   end
 
   def run_player_action
     case @chosen_action
       when "walk"
-        render_message('enemy blocking') if enemy_is_present
-        render_message('not now') if tile_unspent
+        if enemy_is_present
+          render_message('enemy blocking')
+          reset_player_action
+        end
+        if tile_unspent
+          render_message('not now')
+          reset_player_action
+        end
         unless tile_unspent || enemy_is_present
           # binding.pry
           move_forward_and_act
@@ -290,7 +327,7 @@ class UserInterface
     when 'invalid action'
       puts "Invalid action. Please choose again.".colorize(:light_black)
     when 'not now'
-      puts "You can't do that right now"
+      puts "\nYou can't do that right now\n\n"
     when 'play again?'
       puts "You have been defeated! Would you like to play again? (y/n)"
     else

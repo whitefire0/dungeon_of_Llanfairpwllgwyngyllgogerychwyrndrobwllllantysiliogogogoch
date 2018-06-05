@@ -24,3 +24,12 @@ For Dan:
 
   UserInterface and Game are TIGHTLY woven together (they contain a reference to the instance of each other and call upon it to access state data the other contains). Is this this a bad thing in this use case?
 
+Testing root_controller actions
+
+
+
+
+Railsify
+  - output box
+  - input box
+  - graphic of monsters with stats when they appear
