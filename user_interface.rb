@@ -83,10 +83,10 @@ class UserInterface
       when "attack"
         if @game_instance.current_tile.enemy_present
           run_battle_sequence
-          reset_player_action
         else
           render_message('attacking nothing')
         end
+        reset_player_action
       when "rest"
         @healed = @game_instance.player_char.rest
         if @healed
@@ -289,7 +289,7 @@ class UserInterface
   def render_message(msg)
     case msg
     when 'attacking nothing'
-      puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit."
+      puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit.\n"
     when 'get name'
       puts "Please enter your name, player: \n".colorize(:magenta)
     when 'welcome player'
@@ -343,7 +343,7 @@ class UserInterface
       end
     when 'enemy blocking'
       # binding.pry
-      puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!\n"
+      puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!\n\n"
     when 'invalid action'
       puts "Invalid action. Please choose again.".colorize(:light_black)
     when 'not now'
