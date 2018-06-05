@@ -81,8 +81,12 @@ class UserInterface
           reset_player_action
         end
       when "attack"
-        if @game_instance.current_tile.enemy_present
-          run_battle_sequence
+        if @game_instance.current_tile
+          if @game_instance.current_tile.enemy_present
+            run_battle_sequence
+          else
+            render_message('attacking nothing')
+          end
         else
           render_message('attacking nothing')
         end
@@ -289,7 +293,7 @@ class UserInterface
   def render_message(msg)
     case msg
     when 'attacking nothing'
-      puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit.\n"
+      puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit.\n\n"
     when 'get name'
       puts "Please enter your name, player: \n".colorize(:magenta)
     when 'welcome player'
