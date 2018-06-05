@@ -70,8 +70,11 @@ class UserInterface
           reset_player_action
         end
         if tile_unspent
-          render_message('not now')
-          reset_player_action
+          # HACK - find some other way of preventing tile_unspent running if an enemy has already prevented action
+          unless enemy_is_present
+            render_message('not now')
+            reset_player_action
+          end
         end
         unless tile_unspent || enemy_is_present
           move_forward_and_act
@@ -331,7 +334,7 @@ class UserInterface
     when 'heal'
       puts "#{player_name} the #{player_class} healed for #{@healed} hitpoints\n".colorize(:red)
     when 'no more rests'
-      puts "You have no more rests remaining in this area...you must advance!".colorize(:red)
+      puts "You have no more rests remaining in this area...you must advance!\n".colorize(:red)
     when 'died'
       if @game_instance.player_char.is_dead
         puts "#{player_name} lost all their health points and has died!\n".colorize(:red)
@@ -339,8 +342,8 @@ class UserInterface
         puts "#{@game_instance.previous_enemy.name} lost all their health points and has died!\n".colorize(:red)
       end
     when 'enemy blocking'
-      binding.pry
-      puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!"
+      # binding.pry
+      puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!\n"
     when 'invalid action'
       puts "Invalid action. Please choose again.".colorize(:light_black)
     when 'not now'
