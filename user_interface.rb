@@ -322,6 +322,14 @@ class UserInterface
         a = Attack
         r = Rest
         i = Inspect area\n".colorize(:magenta)
+    when 'hit'
+      # REFACTOR: requires either Character to have a reference to menu_instance, or to move def hit into Game and make Game aware whether player or enemy is currently attacking
+    when 'took damage'
+      # REFACTOR: requires either Character to have a reference to menu_instance, or to move def hit into Game and make Game aware whether player or enemy is currently attacking
+    when 'no more rests'
+      # REFACTOR: requires either Character to have a reference to menu_instance, or to move def hit into Game and make Game aware whether player or enemy is currently attacking
+    when 'died'
+      # REFACTOR: requires either Character to have a reference to menu_instance, or to move def hit into Game and make Game aware whether player or enemy is currently attacking
     when 'enemy blocking'
       puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!"
     when 'invalid action'

@@ -26,6 +26,27 @@ For Dan:
 
 Testing root_controller actions
 
+  case 1
+    w, encounter enemy
+    a, attack enemy, enemy dies
+    w, encounter enemy
+    a, !menu asks for input again!
+    a, attack enemy, enemy dies
+    w, encounter enemy
+    a, !menu asks for input again!
+    a, attacks enemy, enemy dies
+
+    w, encounter enemy
+    a, attack enemy, enemy dies
+    w, !menu asks for input again!
+    w, 'you can't do that right now'
+    a, attack enemy, enemy dies
+    w, encounter enemy
+
+    BUG: after an enemy dies, the menu asks for action. it doesn't respond correctly to the first input, but does to the second. Provided it accepts an action, the next one works (ie resting)
+
+
+
 
 
 

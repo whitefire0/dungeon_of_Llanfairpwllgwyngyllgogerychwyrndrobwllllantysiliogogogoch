@@ -46,7 +46,7 @@ class Character
 
   def hit(enemy)
     modified_strength = fluctuate(self.strength)
-    puts "#{self.name} the #{self.class} hit #{enemy.name} the #{enemy.class} for #{modified_strength} damage.".colorize(:red)
+    
     enemy.take_damage(modified_strength)
   end
 
