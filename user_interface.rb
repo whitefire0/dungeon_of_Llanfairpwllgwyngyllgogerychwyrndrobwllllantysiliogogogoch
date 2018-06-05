@@ -34,16 +34,12 @@ class UserInterface
   def run_player_action
     case @chosen_action
       when "walk"
-        unless @game_instance.tile_number > @game_instance.spent_tiles
+        render_message('enemy blocking') if enemy_is_present
+        render_message('not now') if tile_unspent
+        unless tile_unspent || enemy_is_present
           # binding.pry
-          move_forward_and_act
-          # binding.pry
-          unless @game_instance.current_tile.enemy_present
           move_forward_and_act
           reset_player_action
-          else
-            render_message('enemy blocking')
-          end
         end
       when "attack"
         if @game_instance.current_tile.enemy
@@ -77,6 +73,13 @@ class UserInterface
     @game_instance.get_new_tile
     present_tile
     get_player_action
+  end
+
+  def enemy_is_present
+    unless @game_instance.current_tile == nil
+      @game_instance.current_tile.enemy_present
+      reset_player_action
+    end
   end
 
   def create_player
@@ -133,6 +136,10 @@ class UserInterface
     end
   end
 
+  def tile_unspent
+    @game_instance.tile_number > @game_instance.spent_tiles
+  end
+
   def reset_player_action
     @chosen_action = nil
   end
@@ -162,58 +169,6 @@ class UserInterface
 
   def dev_mode
      @game_instance.delays_off
-  end
-
-  def render_message(msg)
-    case msg
-    when 'attacking nothing'
-      puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit."
-    when 'get name'
-      puts "Please enter your name, player: \n".colorize(:magenta)
-    when 'welcome player'
-      puts "Welcome to the dungeon, #{player_name} the #{player_class}! Untold glory awaits you.\n".colorize(:magenta)
-    when 'character stats'
-      puts "These are your character stats:\n
-        Age: #{player_age}
-        Health: #{player_health}
-        Strength: #{player_strength}
-        Constitution: #{player_constitution}
-        Intelligence: #{player_intelligence}
-        Dexterity: #{player_dexterity}
-        Your unique skill: #{player_unique_skills}\n".colorize(:blue)
-    when 'walk into dungeon'
-      puts "It is here that we begin. If you are sure you wish to proceed, you must walk into the dungeon itself...\n".colorize(:light_green)
-    when 'step forward'
-      puts "You step forward, into the next dungeon area, reaching tile #{@game_instance.tile_number}...".colorize(:light_green)
-    when 'tile description'
-      puts @game_instance.current_tile.tile_description.colorize(:green)
-    when 'enemy appears'
-      puts "\nAn enemy has appeared! #{enemy_name} the #{enemy_class} is standing in front of you!\n".colorize(:light_red)
-    when 'inspect enemy'
-      puts "You take a look closer at the bastard, and see...\n
-            Name: #{enemy_name}
-            Type: #{enemy_class}
-            Age: #{enemy_age}
-            Health: #{enemy_health}
-            Strength: #{enemy_strength}
-            Constitution: #{enemy_constitution}
-            Intelligence: #{enemy_intelligence}
-            Dexterity: #{enemy_dexterity}
-            Unique Skill: #{enemy_unique_skills}\n".colorize(:yellow)
-    when 'choose action'
-      puts "Player, make your choice:
-        w = Walk forward...further into the dungeon
-        a = Attack
-        r = Rest
-        i = Inspect area\n".colorize(:magenta)
-    when 'enemy blocking'
-      puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!"
-    when 'invalid action'
-      puts "Invalid action. Please choose again.".colorize(:light_black)
-    when 'play again?'
-      puts "You have been defeated! Would you like to play again? (y/n)"
-    else
-    end
   end
 
   def player_name
@@ -286,5 +241,59 @@ class UserInterface
 
   def enemy_unique_skills
     @game_instance.current_tile.enemy.unique_skills
+  end
+
+  def render_message(msg)
+    case msg
+    when 'attacking nothing'
+      puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit."
+    when 'get name'
+      puts "Please enter your name, player: \n".colorize(:magenta)
+    when 'welcome player'
+      puts "Welcome to the dungeon, #{player_name} the #{player_class}! Untold glory awaits you.\n".colorize(:magenta)
+    when 'character stats'
+      puts "These are your character stats:\n
+        Age: #{player_age}
+        Health: #{player_health}
+        Strength: #{player_strength}
+        Constitution: #{player_constitution}
+        Intelligence: #{player_intelligence}
+        Dexterity: #{player_dexterity}
+        Your unique skill: #{player_unique_skills}\n".colorize(:blue)
+    when 'walk into dungeon'
+      puts "It is here that we begin. If you are sure you wish to proceed, you must walk into the dungeon itself...\n".colorize(:light_green)
+    when 'step forward'
+      puts "You step forward, into the next dungeon area, reaching tile #{@game_instance.tile_number}...".colorize(:light_green)
+    when 'tile description'
+      puts @game_instance.current_tile.tile_description.colorize(:green)
+    when 'enemy appears'
+      puts "\nAn enemy has appeared! #{enemy_name} the #{enemy_class} is standing in front of you!\n".colorize(:light_red)
+    when 'inspect enemy'
+      puts "You take a look closer at the bastard, and see...\n
+            Name: #{enemy_name}
+            Type: #{enemy_class}
+            Age: #{enemy_age}
+            Health: #{enemy_health}
+            Strength: #{enemy_strength}
+            Constitution: #{enemy_constitution}
+            Intelligence: #{enemy_intelligence}
+            Dexterity: #{enemy_dexterity}
+            Unique Skill: #{enemy_unique_skills}\n".colorize(:yellow)
+    when 'choose action'
+      puts "Player, make your choice:
+        w = Walk forward...further into the dungeon
+        a = Attack
+        r = Rest
+        i = Inspect area\n".colorize(:magenta)
+    when 'enemy blocking'
+      puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!"
+    when 'invalid action'
+      puts "Invalid action. Please choose again.".colorize(:light_black)
+    when 'not now'
+      puts "You can't do that right now"
+    when 'play again?'
+      puts "You have been defeated! Would you like to play again? (y/n)"
+    else
+    end
   end
 end
