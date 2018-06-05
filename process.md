@@ -26,36 +26,14 @@ For Dan:
 
   UserInterface and Game are TIGHTLY woven together (they contain a reference to the instance of each other and call upon it to access state data the other contains). Is this this a bad thing in this use case?
 
-Refactoring
-  getting Character to have smaller methods that return values and use those as the messages back to the Game, which in turn messages UserInterface
-
-Testing root_controller actions
-
-  case 1
-    w, encounter enemy
-    a, attack enemy, enemy dies
-    w, encounter enemy
-    a, !menu asks for input again!
-    a, attack enemy, enemy dies
-    w, encounter enemy
-    a, !menu asks for input again!
-    a, attacks enemy, enemy dies
-
-    w, encounter enemy
-    a, attack enemy, enemy dies
-    w, !menu asks for input again!
-    w, 'you can't do that right now'
-    a, attack enemy, enemy dies
-    w, encounter enemy
-
-    BUG: after an enemy dies, the menu asks for action. it doesn't respond correctly to the first input, but does to the second. Provided it accepts an action, the next one works (ie resting)
-
-
-
-
 
 
 Railsify
   - output box
   - input box
   - graphic of monsters with stats when they appear
+
+  OR
+
+  - console rails app
+  - old school telnet 
