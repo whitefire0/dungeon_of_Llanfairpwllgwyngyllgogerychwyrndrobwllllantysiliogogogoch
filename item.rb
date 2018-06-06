@@ -1,4 +1,26 @@
 class Item
+  attr_accessor
+
+  def initialize(classname)
+    item_type = Object.const_get(classname)
+    @item_type = item_type.new
+  end
+
+  def self.create
+    classname = [
+      'HealthPotion', 'StrengthPotion', 'ConstitutionPotion',
+      'IntelligencePotion', 'DexterityPotion', 'PotionOfLuck',
+      'TheBloodOfChrist', 'ScrollOfSpectralSwords',
+      'PotionOfPrematureDementia', 'MarbleOfDarkMatter',
+      'HolyBomb', 'ScrollOfGimp', 'ScrollOfLightning', 
+      'UnidentifiedPotion', 'ScrollOfTeleport', 'YouDontKnowJavaScript', ,'RaspberryPi', 'InvincibilityPotion'
+    ].sample
+    self.new(classname)
+  end
+
+  def apply_to
+    #  for overriding in subclasses
+  end
   
 end
 
@@ -26,7 +48,7 @@ class StrengthPotion < Item
   end
 end
 
-class ConstituitionPotion < Item
+class ConstitutionPotion < Item
   attr_accessor 
 
   def initialize

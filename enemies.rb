@@ -1,6 +1,20 @@
 require_relative 'base_attributes'
 
 class Enemy < Character
+  def self.generate_from_probability(p)
+    enemy = nil
+    case
+    when p < 60 
+      enemy = SewerRat.create('Ratlet')
+    when p >= 60 && p <= 80
+      enemy = Goblin.create('Arse Itch')
+    when p > 80 && p <= 90
+      enemy = Wreath.create('Nazgul')
+    when p > 90 && p <= 100
+      enemy = Balrog.create('Beatrice')
+    end
+    enemy
+  end
 end
 
 class SewerRat < Enemy

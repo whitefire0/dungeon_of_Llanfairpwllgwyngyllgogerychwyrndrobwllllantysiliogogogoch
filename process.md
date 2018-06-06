@@ -3,6 +3,8 @@ git ls-files | xargs cat | wc -l
 Todo
   * Refactor some of the UI methods into game itself, so that a console user could run the game with commands entirely
 
+  Refactor Tile so that only Tile knows what kinds of tiles exist. Calling Tile.create makes it randomly initialise one of its subclasses. This decouples it from Game.
+
   introduce item effects
     inspect wiring between new tile, item and game item detection
 
@@ -23,6 +25,9 @@ Todo
     heal
     use special skill
     say something funny
+
+  increase number of enemies
+  have tiles dynamically set enemy probabilities
 
   create winning conditions
 
