@@ -1,7 +1,7 @@
 git ls-files | xargs cat | wc -l
 
 Todo
-  Refactor some of the UI methods into game itself, so that a console user could run the game with commands entirely
+  * Refactor some of the UI methods into game itself, so that a console user could run the game with commands entirely
 
   introduce item effects
     inspect wiring between new tile, item and game item detection

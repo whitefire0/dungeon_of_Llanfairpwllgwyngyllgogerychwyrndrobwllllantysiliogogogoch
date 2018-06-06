@@ -18,6 +18,17 @@ class Tile
     ].sample
   end
 
+  def roll_item_type
+    @item_type = [
+      'health potion', 'strength potion', 'constituition potion',
+      'intelligence potion', 'dexterity potion', 'potion of luck',
+      'the blood of christ', 'scroll of spectral swords',
+      'potion of premature dementia', 'a marble of dark matter',
+      'holy bomb', 'scroll of gimp', 'scroll of lightning', 
+      'unidentified potion', 'scroll of teleport', 'you dont know javascript', 'invincibility potion'
+    ].sample
+  end
+
   def select_tile_description
     case @tile_type
     when 'hot'

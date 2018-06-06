@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :chosen_action, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy
+  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :chosen_action, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy, :healed
 
   def initialize
     @menu_instance = nil
