@@ -5,8 +5,7 @@ class Tile
     roll_tile_type
     select_tile_description
     pick_enemy if roll_enemy_chance
-    roll_item_chance
-    pick_item if @item_present
+    pick_item if roll_item_chance
   end
 
   def roll_tile_type
