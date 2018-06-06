@@ -17,7 +17,7 @@ def start_game_instance
     game = Game.new
     interface = UserInterface.new(game)
     game.menu_instance = interface
-    play_again = interface.run_root_controller
+    play_again = interface.manager
   end
 end
 

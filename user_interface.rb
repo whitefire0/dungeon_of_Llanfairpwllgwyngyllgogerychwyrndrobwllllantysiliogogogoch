@@ -7,14 +7,13 @@ class UserInterface
 
   def initialize(game)
     @game_instance = game
-    @character_chosen = false
     @chosen_action = nil
     @play_again = nil
   end
   
-  def run_root_controller
+  def manager
     while @game_instance.on do
-      player_creation_if_needed
+      game_setup
       get_player_action
       run_player_action
 
@@ -27,23 +26,22 @@ class UserInterface
     end
   end
 
-  def player_creation_if_needed
-    create_player unless @player_created
-    select_character_instance unless @character_chosen
-    @game_instance.on = true if @player_created && @character_chosen
+  def game_setup
+    create_player unless @game_instance.player_created
+    create_character unless @game_instance.character_chosen
+    @game_instance.on = true if @game_instance.player_created && @game_instance.character_chosen
+    render_message('walk into dungeon')
   end
 
   def create_player
-    unless @game_instance.player_created
       render_message('get name')
       # player_name = gets.chomp
       # *** FOR TESTING ***
       player_name = 'Rick'
-      @game_instance.create_player(player_name)
-    end
+
   end
 
-  def select_character_instance
+  def create_character
     while player_class == NilClass
       puts "\nPlease choose your character class:
               v = Viking 
@@ -72,6 +70,7 @@ class UserInterface
         puts "Invalid choice, please choose again.".colorize(:light_black)
       end
     end
+    welcome_player
   end
 
   def run_player_action
@@ -184,9 +183,7 @@ class UserInterface
   def welcome_player
     render_message('welcome player')
     render_message('character stats')
-    @character_chosen = true
     sleep(2) unless dev_mode
-    render_message('walk into dungeon')
   end
 
   def present_tile

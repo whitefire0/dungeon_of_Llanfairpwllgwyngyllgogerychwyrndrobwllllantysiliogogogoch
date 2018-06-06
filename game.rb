@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :on, :player_created, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy
+  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy
 
   def initialize
     @menu_instance = nil
@@ -8,6 +8,7 @@ class Game
     @player_created = false
     @player_name = nil
     @player_char = nil
+    @character_chosen = false
     @tile_number = 0
     @spent_tiles = 0
     @tile_type = nil
@@ -19,15 +20,11 @@ class Game
     @player_name = name
     @player_created = true
   end
-
-  def create_character_instance
-    @player_char = @player_char.create(@player_name)
-    @menu_instance.welcome_player
-  end
-    
+  
   def set_player_class(classname)
-    @player_char = Object.const_get(classname)
-    create_character_instance
+    classname = Object.const_get(classname)
+    @player_char = classname.create(@player_name)
+    @character_chosen = true
   end
 
   def get_new_tile
