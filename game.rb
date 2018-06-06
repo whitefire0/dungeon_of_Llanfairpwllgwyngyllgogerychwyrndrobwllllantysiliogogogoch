@@ -4,7 +4,7 @@ class Game
   def initialize
     @menu_instance = nil
     @on = true
-    @delays_off = false
+    @delays_off = true
     @player_created = false
     @player_name = nil
     @player_char = nil
@@ -17,7 +17,6 @@ class Game
 
   def create_character_instance
     @player_char = @player_char.create(@player_name)
-    # @player_char.name << " the #{@player_char.class}"
     @menu_instance.welcome_player
   end
     
@@ -27,7 +26,6 @@ class Game
   end
 
   def get_new_tile
-    # binding.pry
     @current_tile = Tile.new
     @tile_number += 1
   end

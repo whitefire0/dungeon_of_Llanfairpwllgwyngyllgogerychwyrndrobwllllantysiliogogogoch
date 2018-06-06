@@ -49,7 +49,9 @@ class Tile
   end
 
   def roll_item_chance
-    @item_present = generate_1_in_5
+    # @item_present = generate_1_in_5
+    # *** FOR TESTING ONLY ***
+    true
   end
 
   def pick_item

@@ -134,7 +134,10 @@ class UserInterface
 
   def inspect
     if @game_instance.current_tile
-      # code
+      render_message('checking area')
+      if@game_instance.current_tile.item_present
+        render_message('describe item')
+      end
     else
       render_message('outside dungeon')
     end
