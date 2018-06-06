@@ -7,6 +7,14 @@ module Messages
       puts "You are still standing outside the dungeon...get on with it!\n\n"
     when 'get name'
       puts "Please enter your name, player: \n".colorize(:magenta)
+    when 'choose class'
+      puts "\nPlease choose your character class:
+              v = Viking 
+              b = Barbarian
+              w = Wizard 
+              r = Rogue 
+              c = Cleric 
+              g = Gimp\n".colorize(:magenta)
     when 'welcome player'
       puts "Welcome to the dungeon, #{player_name} the #{player_class}! Untold glory awaits you.\n".colorize(:magenta)
     when 'character stats'
@@ -53,7 +61,7 @@ module Messages
       puts "#{@game_instance.last_attacking_char.name} the #{@game_instance.last_attacking_char.class} hit #{@game_instance.last_defending_char.name} the #{@game_instance.last_defending_char.class} for #{@game_instance.last_damage_dealt} hitpoints".colorize(:red) 
       puts "#{@game_instance.last_defending_char.name} has #{@game_instance.last_defending_char.health} health remaining\n".colorize(:red)
     when 'heal'
-      puts "#{player_name} the #{player_class} healed for #{@healed} hitpoints\n".colorize(:red)
+      puts "#{player_name} the #{player_class} healed for #{@game_instance.healed} hitpoints\n".colorize(:red)
     when 'no more rests'
       puts "You have no more rests remaining in this area...you must advance!\n".colorize(:red)
     when 'died'

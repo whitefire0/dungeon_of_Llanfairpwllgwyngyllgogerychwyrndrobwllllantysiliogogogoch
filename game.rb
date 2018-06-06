@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy
+  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :chosen_action, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy
 
   def initialize
     @menu_instance = nil
@@ -13,6 +13,7 @@ class Game
     @spent_tiles = 0
     @tile_type = nil
     @current_tile = nil
+    @chosen_action = nil
     generate_npcs
   end
 
@@ -44,6 +45,92 @@ class Game
       @npc_wreath => Wreath.create('Casper'),
       @npc_balrog => Balrog.create('Berty')
     }
+  end
+
+  def enemy_is_present
+    unless current_tile == nil
+      current_tile.enemy_present
+    end
+  end
+
+  def reset_player_action
+    @chosen_action = nil
+  end
+
+  def walk
+    if enemy_is_present
+      @menu_instance.render_message('enemy blocking')
+      reset_player_action
+    end
+    unless enemy_is_present
+      move_forward_and_act
+      reset_player_action
+    end
+  end
+
+  def move_forward_and_act
+    reset_available_rests
+    get_new_tile
+    @menu_instance.present_tile
+    @menu_instance.get_player_action
+  end
+
+  def attack
+    if current_tile
+      if current_tile.enemy_present
+        run_battle_sequence
+      else
+        @menu_instance.render_message('attacking nothing')
+      end
+    else
+      @menu_instance.render_message('attacking nothing')
+    end
+    reset_player_action
+  end
+
+  def run_battle_sequence
+    battle_mode
+    @spent_tiles += 1
+    @menu_instance.exit_game? if player_char.is_dead   
+  end
+
+  def rest
+    if current_tile
+      @healed = player_char.rest
+      if @healed
+        @menu_instance.render_message('heal')
+      else
+        @menu_instance.render_message('no more rests')
+      end
+    else
+      @menu_instance.render_message('outside dungeon')
+    end
+    reset_player_action
+  end
+
+  def reset_available_rests
+    player_char.rests_remaining = player_char.rests_per_turn
+  end
+
+  def inspect
+    if current_tile
+      @menu_instance.render_message('checking area')
+      if current_tile.item_present
+        @menu_instance.render_message('describe item')
+      end
+    else
+      @menu_instance.render_message('outside dungeon')
+    end
+    reset_player_action
+  end
+
+  def hide
+    if current_tile
+      # code
+    else
+      @menu_instance.render_message('outside dungeon')
+    end
+    reset_player_action 
   end
 
   def battle_mode

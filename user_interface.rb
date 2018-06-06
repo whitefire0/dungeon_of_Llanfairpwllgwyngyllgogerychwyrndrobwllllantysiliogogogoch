@@ -1,13 +1,14 @@
+require_relative 'game_state_abbreviations'
 require_relative 'messages'
 
 # UserInterface will eventually shield the entire inner application, exposing only accepted commands
 class UserInterface
+  include GameStateAbbreviations
   include Messages
   attr_accessor :delays_off
 
   def initialize(game)
     @game_instance = game
-    @chosen_action = nil
     @play_again = nil
   end
   
@@ -27,29 +28,23 @@ class UserInterface
   end
 
   def game_setup
-    create_player unless @game_instance.player_created
+    get_player_name unless @game_instance.player_created
     create_character unless @game_instance.character_chosen
     @game_instance.on = true if @game_instance.player_created && @game_instance.character_chosen
     render_message('walk into dungeon')
   end
 
-  def create_player
+  def get_player_name
       render_message('get name')
       # player_name = gets.chomp
       # *** FOR TESTING ***
       player_name = 'Rick'
-
+      @game_instance.create_player(player_name)
   end
 
   def create_character
     while player_class == NilClass
-      puts "\nPlease choose your character class:
-              v = Viking 
-              b = Barbarian
-              w = Wizard 
-              r = Rogue 
-              c = Cleric 
-              g = Gimp\n".colorize(:magenta)
+      render_message('choose class')
       # chosen_class = gets.chomp
       # *** FOR TESTING ***
       chosen_class = 'v'
@@ -74,19 +69,19 @@ class UserInterface
   end
 
   def run_player_action
-    case @chosen_action
+    case @game_instance.chosen_action
       when "walk"
-        walk
+        @game_instance.walk
       when "attack"
-        attack
+        @game_instance.attack
       when "rest"
-        rest
+        @game_instance.rest
       when "inspect"
-        inspect        
+        @game_instance.inspect        
       when "hide"
-        hide
+        @game_instance.hide
       when "use item"
-        hide
+        @game_instance.hide
       when "dance"
       when "retreat"
       when "save and exit"
@@ -95,90 +90,7 @@ class UserInterface
     end
   end
 
-  def walk
-    if enemy_is_present
-      render_message('enemy blocking')
-      reset_player_action
-    end
-    # if tile_unspent
-    #   # HACK - find some other way of preventing tile_unspent running if an enemy has already prevented action
-    #   unless enemy_is_present
-    #     render_message('not now')
-    #     reset_player_action
-    #   end
-    # end
-    unless enemy_is_present
-      move_forward_and_act
-      reset_player_action
-    end
-  end
-
-  def attack
-    if @game_instance.current_tile
-      if @game_instance.current_tile.enemy_present
-        run_battle_sequence
-      else
-        render_message('attacking nothing')
-      end
-    else
-      render_message('attacking nothing')
-    end
-    reset_player_action
-  end
-
-  def rest
-    if @game_instance.current_tile
-      @healed = @game_instance.player_char.rest
-    if @healed
-      render_message('heal')
-    else
-      render_message('no more rests')
-    end
-    else
-      render_message('outside dungeon')
-    end
-    reset_player_action
-  end
-
-  def inspect
-    if @game_instance.current_tile
-      render_message('checking area')
-      if@game_instance.current_tile.item_present
-        render_message('describe item')
-      end
-    else
-      render_message('outside dungeon')
-    end
-    reset_player_action
-  end
-
-  def hide
-    if @game_instance.current_tile
-      # code
-    else
-      render_message('outside dungeon')
-    end
-    reset_player_action 
-  end
-
-  def run_battle_sequence
-    @game_instance.battle_mode
-    @game_instance.spent_tiles += 1
-    exit_game? if @game_instance.player_char.is_dead   
-  end
-
-  def move_forward_and_act
-    reset_available_rests
-    @game_instance.get_new_tile
-    present_tile
-    get_player_action
-  end
-
-  def enemy_is_present
-    unless @game_instance.current_tile == nil
-      @game_instance.current_tile.enemy_present
-    end
-  end
+  
 
   def welcome_player
     render_message('welcome player')
@@ -204,45 +116,33 @@ class UserInterface
     # @chosen_action = 'attack'
     sleep(1.5) unless dev_mode
     # binding.pry
-    while @chosen_action == nil
+    while @game_instance.chosen_action == nil
       render_message('choose action')
       response = gets.chomp
       puts "\n"
       case response
       when /^w|W/
-        @chosen_action = 'walk'
+        @game_instance.chosen_action = 'walk'
       when /^a|A/
-        @chosen_action = 'attack'
+        @game_instance.chosen_action = 'attack'
       when /^r|R/
-        @chosen_action = 'rest'
+        @game_instance.chosen_action = 'rest'
       when /^i|I/
-        @chosen_action = 'inspect'
+        @game_instance.chosen_action = 'inspect'
       when /^u|U/
-        @chosen_action = 'use'
+        @game_instance.chosen_action = 'use'
       when /^d|D/
-        @chosen_action = 'dance'
+        @game_instance.chosen_action = 'dance'
       when /^e|E/
-        @chosen_action = 'retreat'
+        @game_instance.chosen_action = 'retreat'
       when /^s|S/
-        @chosen_action = 'save and exit'
+        @game_instance.chosen_action = 'save and exit'
       when /^x|X/
-        @chosen_action = 'exit'
+        @game_instance.chosen_action = 'exit'
       else
         render_message('invalid action')
       end
     end
-  end
-
-  def tile_unspent
-    @game_instance.tile_number > @game_instance.spent_tiles
-  end
-
-  def reset_player_action
-    @chosen_action = nil
-  end
-
-  def reset_available_rests
-    @game_instance.player_char.rests_remaining = @game_instance.player_char.rests_per_turn
   end
 
   def exit_game?
@@ -266,77 +166,5 @@ class UserInterface
 
   def dev_mode
      @game_instance.delays_off
-  end
-
-  def player_name
-    @game_instance.player_char.name
-  end
-
-  def player_class
-    @game_instance.player_char.class
-  end
-  
-  def player_age
-    @game_instance.player_char.age
-  end
-
-  def player_health
-    @game_instance.player_char.health
-  end
-
-  def player_strength
-    @game_instance.player_char.strength
-  end
-
-  def player_constitution
-    @game_instance.player_char.constitution
-  end
-
-  def player_intelligence
-    @game_instance.player_char.intelligence
-  end
-
-  def player_dexterity
-    @game_instance.player_char.dexterity
-  end
-
-  def player_unique_skills
-    @game_instance.player_char.unique_skills
-  end
-
-  def enemy_name
-    @game_instance.current_tile.enemy.name
-  end
-
-  def enemy_class
-    @game_instance.current_tile.enemy.class
-  end
-  
-  def enemy_age
-    @game_instance.current_tile.enemy.age
-  end
-
-  def enemy_health
-    @game_instance.current_tile.enemy.health
-  end
-
-  def enemy_strength
-    @game_instance.current_tile.enemy.strength
-  end
-
-  def enemy_constitution
-    @game_instance.current_tile.enemy.constitution
-  end
-
-  def enemy_intelligence
-    @game_instance.current_tile.enemy.intelligence
-  end
-
-  def enemy_dexterity
-    @game_instance.current_tile.enemy.dexterity
-  end
-
-  def enemy_unique_skills
-    @game_instance.current_tile.enemy.unique_skills
   end
 end
