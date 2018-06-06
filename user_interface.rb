@@ -31,7 +31,6 @@ class UserInterface
     get_player_name unless @game_instance.player_created
     create_character unless @game_instance.character_chosen
     @game_instance.on = true if @game_instance.player_created && @game_instance.character_chosen
-    render_message('walk into dungeon')
   end
 
   def get_player_name
@@ -66,6 +65,7 @@ class UserInterface
       end
     end
     welcome_player
+    render_message('walk into dungeon')
   end
 
   def run_player_action

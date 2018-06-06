@@ -29,7 +29,7 @@ class Game
   end
 
   def get_new_tile
-    @current_tile = Tile.new
+    @current_tile = Tile.create
     @tile_number += 1
   end
 
@@ -115,8 +115,11 @@ class Game
   def inspect
     if current_tile
       @menu_instance.render_message('checking area')
-      if current_tile.item_present
-        @menu_instance.render_message('describe item')
+      # binding.pry
+      if current_tile.tile_type.item
+        if current_tile.tile_type.item.item_
+          @menu_instance.render_message('describe item')
+        end
       end
     else
       @menu_instance.render_message('outside dungeon')

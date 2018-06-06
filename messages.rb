@@ -31,7 +31,7 @@ module Messages
     when 'step forward'
       puts "You step forward, into the next dungeon area, reaching tile #{@game_instance.tile_number}...".colorize(:light_green)
     when 'tile description'
-      puts @game_instance.current_tile.tile_description.colorize(:green)
+      puts @game_instance.current_tile.tile_type.tile_description.colorize(:green)
       puts "\n\n"
     when 'enemy appears'
       puts "\nAn enemy has appeared! #{enemy_name} the #{enemy_class} is standing in front of you!\n".colorize(:light_red)
@@ -74,7 +74,7 @@ module Messages
       # binding.pry
       puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!\n\n"
     when 'checking area'
-      puts "You put on your adventurers spectacles and take a look around the area. It is a #{@game_instance.current_tile.tile_type} area, that's for sure. \n\n".colorize(:light_green)
+      puts "You put on your adventurers spectacles and take a look around the area. It is a #{@game_instance.current_tile.tile_type.class} area, that's for sure. \n\n".colorize(:light_green)
     when 'describe item'
       puts "You discovered an item! The #{@game_instance.current_tile.item_type} triggers a vague memory and you think you remember what it does....#{@game_instance.current_tile.item_description}.\n\nYou place it in your fanny pack for safe keeping".colorize(:light_green)
     when 'invalid action'
