@@ -15,6 +15,11 @@ class Game
     generate_npcs
   end
 
+  def create_player(name)
+    @player_name = name
+    @player_created = true
+  end
+
   def create_character_instance
     @player_char = @player_char.create(@player_name)
     @menu_instance.welcome_player

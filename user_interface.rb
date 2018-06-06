@@ -7,7 +7,6 @@ class UserInterface
 
   def initialize(game)
     @game_instance = game
-    @player_created = false
     @character_chosen = false
     @chosen_action = nil
     @play_again = nil
@@ -32,6 +31,16 @@ class UserInterface
     create_player unless @player_created
     select_character_instance unless @character_chosen
     @game_instance.on = true if @player_created && @character_chosen
+  end
+
+  def create_player
+    unless @game_instance.player_created
+      render_message('get name')
+      # player_name = gets.chomp
+      # *** FOR TESTING ***
+      player_name = 'Rick'
+      @game_instance.create_player(player_name)
+    end
   end
 
   def select_character_instance
@@ -169,16 +178,6 @@ class UserInterface
   def enemy_is_present
     unless @game_instance.current_tile == nil
       @game_instance.current_tile.enemy_present
-    end
-  end
-
-  def create_player
-    unless @player_created
-      render_message('get name')
-      # @game_instance.player_name = gets.chomp
-      # *** FOR TESTING ***
-      @game_instance.player_name = 'Rick'
-      @player_created = true
     end
   end
 
