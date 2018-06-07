@@ -1,6 +1,6 @@
 module Messages
-  def render_message(msg)
-    case msg
+  def render_message(options)
+    case options[:msg]
     when 'attacking nothing'
       puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit.\n\n".colorize(:red)
     when 'outside dungeon'

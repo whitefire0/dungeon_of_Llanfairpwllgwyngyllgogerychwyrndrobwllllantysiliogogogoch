@@ -59,7 +59,7 @@ class Game
 
   def walk
     if enemy_is_present
-      @menu_instance.render_message('enemy blocking')
+      menu_instance.render_message(msg: 'enemy blocking')
       reset_player_action
     end
     unless enemy_is_present
@@ -71,8 +71,8 @@ class Game
   def move_forward_and_act
     reset_available_rests
     get_new_tile
-    @menu_instance.present_tile
-    @menu_instance.get_player_action
+    menu_instance.present_tile
+    menu_instance.get_player_action
   end
 
   def attack
@@ -80,10 +80,10 @@ class Game
       if current_tile.enemy_present
         run_battle_sequence
       else
-        @menu_instance.render_message('attacking nothing')
+        menu_instance.render_message(msg: 'attacking nothing')
       end
     else
-      @menu_instance.render_message('attacking nothing')
+      menu_instance.render_message(msg: 'attacking nothing')
     end
     reset_player_action
   end
@@ -91,19 +91,19 @@ class Game
   def run_battle_sequence
     battle_mode
     @spent_tiles += 1
-    @menu_instance.exit_game? if player_char.is_dead   
+    menu_instance.exit_game? if player_char.is_dead   
   end
 
   def rest
     if current_tile
       @healed = player_char.rest
       if @healed
-        @menu_instance.render_message('heal')
+        menu_instance.render_message(msg: 'heal')
       else
-        @menu_instance.render_message('no more rests')
+        menu_instance.render_message(msg: 'no more rests')
       end
     else
-      @menu_instance.render_message('outside dungeon')
+      menu_instance.render_message(msg: 'outside dungeon')
     end
     reset_player_action
   end
@@ -114,23 +114,24 @@ class Game
 
   def inspect
     if current_tile
-      @menu_instance.render_message('checking area')
+      menu_instance.render_message(msg: 'checking area')
       if current_tile.item
-        @menu_instance.render_message('describe item')
+        player_char.inventory << current_tile.item
+        menu_instance.render_message(msg: 'describe item')
       else
-        @menu_instance.render_message('no item present')
+        menu_instance.render_message(msg: 'no item present')
       end
     else
-      @menu_instance.render_message('outside dungeon')
+      menu_instance.render_message(msg: 'outside dungeon')
     end
     reset_player_action
   end
 
   def use_item
-    if current_tile
-      # code
+    if player_char.inventory.length > 0
+      menu_instance.render_message(msg: 'select item', items: player_char.inventory)
     else
-     
+      menu_instance
     end
     reset_player_action 
   end
@@ -154,11 +155,11 @@ class Game
   end
 
   def player_turn
-    unless @player_char.is_dead
-      @last_attacking_char = @player_char
+    unless player_char.is_dead
+      @last_attacking_char = player_char
       @last_damage_dealt = player_attacks
       @last_defending_char = @current_tile.enemy
-      @menu_instance.render_message('hit')
+      menu_instance.render_message(msg: 'hit')
     else
       @both_alive = false
     end
@@ -168,33 +169,33 @@ class Game
     unless @current_tile.enemy.is_dead
       @last_attacking_char = @current_tile.enemy
       @last_damage_dealt = enemy_attacks
-      @last_defending_char = @player_char
-      @menu_instance.render_message('hit')
+      @last_defending_char = player_char
+      menu_instance.render_message(msg: 'hit')
     else
       @both_alive = false
     end
   end
 
   def who_won
-    if @player_char.health <= 0
-      @player_char.character_dead!
+    if player_char.health <= 0
+      player_char.character_dead!
     end
     if @current_tile.enemy.health <= 0
       @previous_enemy = @current_tile.enemy
       @current_tile.enemy = nil
       @current_tile.enemy_present = false
     end
-    @menu_instance.render_message('died')
+    menu_instance.render_message(msg: 'died')
   end
 
   def player_attacks
-    sleep(0.35) unless @menu_instance.dev_mode
+    sleep(0.35) unless menu_instance.dev_mode
     damage = player_char.hit(current_tile.enemy)
     damage
   end
 
   def enemy_attacks
-    sleep(0.35) unless @menu_instance.dev_mode
+    sleep(0.35) unless menu_instance.dev_mode
     damage = current_tile.enemy.hit(player_char)
     damage
   end

@@ -1,10 +1,12 @@
 require_relative 'base_attributes'
 
 class Viking < Character
-  attr_reader :name
+  attr_reader :name, :base_health
+  attr_accessor :health
 
   def roll_attribute_modifiers
     @health += 200
+    @base_health = @health
     @strength = (@strength * 1.5).round
     @constitution = (@constitution * 1.5).round
     @intelligence = (@intelligence * 0.33).round

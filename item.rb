@@ -33,6 +33,7 @@ class HealthPotion < Item
   end
 
   def apply_to(character)
+    character.health += self.base_health
   end
 end
 

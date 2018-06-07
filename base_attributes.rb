@@ -9,13 +9,13 @@ module BaseAttributes
     @intelligence = attributes[:intelligence]
     @rests_per_turn = attributes[:rests_per_turn]
     @rests_remaining = attributes[:rests_remaining]
+    @inventory = []
   end
 end
 
 class Character
   include BaseAttributes
-  attr_reader :name, :age, :health, :strength, :constitution, :dexterity, :intelligence, :unique_skills, :is_dead, :rests_per_turn, :rests_remaining
-  attr_writer :health, :is_dead, :rests_per_turn, :rests_remaining
+  attr_accessor :name, :age, :health, :strength, :constitution, :dexterity, :intelligence, :unique_skills, :is_dead, :rests_per_turn, :rests_remaining, :health, :is_dead, :rests_per_turn, :rests_remaining, :inventory
 
   def initialize(attributes)
     create_base(attributes)

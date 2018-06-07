@@ -5,7 +5,7 @@ require_relative 'messages'
 class UserInterface
   include GameStateAbbreviations
   include Messages
-  attr_accessor :delays_off
+  attr_accessor :delays_off, :game_instance
 
   def initialize(game)
     @game_instance = game
@@ -34,7 +34,7 @@ class UserInterface
   end
 
   def get_player_name
-      render_message('get name')
+      render_message(msg: 'get name')
       # player_name = gets.chomp
       # *** FOR TESTING ***
       player_name = 'Rick'
@@ -42,8 +42,10 @@ class UserInterface
   end
 
   def create_character
-    while player_class == NilClass
-      render_message('choose class')
+    # binding.pry
+    while player_class == NilClass do
+      # binding.pry
+      render_message(msg: 'choose class')
       # chosen_class = gets.chomp
       # *** FOR TESTING ***
       chosen_class = 'v'
@@ -65,7 +67,47 @@ class UserInterface
       end
     end
     welcome_player
-    render_message('walk into dungeon')
+    render_message(msg: 'walk into dungeon')
+  end
+
+  def welcome_player
+    render_message(msg: 'welcome player')
+    render_message(msg: 'character stats')
+    sleep(2) unless dev_mode
+  end
+
+  def get_player_action
+    # *** FOR TESTING ***
+    # @chosen_action = 'attack'
+    sleep(1.5) unless dev_mode
+    while @game_instance.chosen_action == nil
+      render_message(msg: 'choose action')
+      response = gets.chomp
+      response = response.length == 1 ? response : 'z - invalid action'
+      puts "\n"
+      case response
+      when /^w/
+        @game_instance.chosen_action = 'walk'
+      when /^a/
+        @game_instance.chosen_action = 'attack'
+      when /^r/
+        @game_instance.chosen_action = 'rest'
+      when /^i/
+        @game_instance.chosen_action = 'inspect'
+      when /^u/
+        @game_instance.chosen_action = 'use'
+      when /^d/
+        @game_instance.chosen_action = 'dance'
+      when /^e/
+        @game_instance.chosen_action = 'retreat'
+      when /^s/
+        @game_instance.chosen_action = 'save and exit'
+      when /^x/
+        @game_instance.chosen_action = 'exit'
+      else
+        render_message(msg: 'invalid action')
+      end
+    end
   end
 
   def run_player_action
@@ -90,58 +132,16 @@ class UserInterface
     end
   end
 
-  
-
-  def welcome_player
-    render_message('welcome player')
-    render_message('character stats')
-    sleep(2) unless dev_mode
-  end
-
   def present_tile
     sleep(1) unless dev_mode
-    render_message('step forward')
+    render_message(msg: 'step forward')
     sleep(1) unless dev_mode
-    render_message('tile description')
+    render_message(msg: 'tile description')
     sleep(1.5) unless dev_mode
     if @game_instance.current_tile.enemy_present
-      render_message('enemy appears')
+      render_message(msg: 'enemy appears')
       sleep(2) unless dev_mode
-      render_message('inspect enemy')
-    end
-  end
-
-  def get_player_action
-    # *** FOR TESTING ***
-    # @chosen_action = 'attack'
-    sleep(1.5) unless dev_mode
-    # binding.pry
-    while @game_instance.chosen_action == nil
-      render_message('choose action')
-      response = gets.chomp
-      puts "\n"
-      case response
-      when /^w|W/
-        @game_instance.chosen_action = 'walk'
-      when /^a|A/
-        @game_instance.chosen_action = 'attack'
-      when /^r|R/
-        @game_instance.chosen_action = 'rest'
-      when /^i|I/
-        @game_instance.chosen_action = 'inspect'
-      when /^u|U/
-        @game_instance.chosen_action = 'use'
-      when /^d|D/
-        @game_instance.chosen_action = 'dance'
-      when /^e|E/
-        @game_instance.chosen_action = 'retreat'
-      when /^s|S/
-        @game_instance.chosen_action = 'save and exit'
-      when /^x|X/
-        @game_instance.chosen_action = 'exit'
-      else
-        render_message('invalid action')
-      end
+      render_message(msg: 'inspect enemy')
     end
   end
 
@@ -149,7 +149,7 @@ class UserInterface
     # do we need this nil?
     # @play_again = nil
     while @play_again == nil do
-      render_message('play again?')
+      render_message(msg: 'play again?')
       response = gets.chomp
       case response
       when /^y|Y/
@@ -157,7 +157,7 @@ class UserInterface
       when /^n|N/
         @play_again = false
       else
-        render_message('invalid action')
+        render_message(msg: 'invalid action')
       end
     end
 
