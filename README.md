@@ -1,4 +1,4 @@
-# ThunderGimp - A text based adventure game
+# Dungeon of Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch - A text based adventure game
 
 ## The Concept
 
