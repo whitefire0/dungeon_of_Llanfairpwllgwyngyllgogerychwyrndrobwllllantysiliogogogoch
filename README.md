@@ -1,4 +1,4 @@
-# ThunderGimp - A text based adventure game
+# Dungeon of Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch - A text based adventure game
 
 ## The Concept
 
@@ -28,4 +28,6 @@ Yours codely,
 Sir Richard
 
 >*those who complete the dungeon do actually get the option to play again as Schrodinger’s cat, in which case you should probably reverse your philosophy on curiosity as this one definitely doesn’t get 9 lives...although it does exhibit potentially useful quantum properties and if you are clever may be able to use them...
+
+> The name means "St Mary's church in the hollow of the white hazel near to the fierce whirlpool of St Tysilio of the red cave" in Welsh. It's an actual place.
 
