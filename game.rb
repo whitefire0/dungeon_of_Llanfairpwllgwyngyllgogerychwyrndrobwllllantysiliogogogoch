@@ -129,9 +129,15 @@ class Game
 
   def use_item
     if player_char.inventory.length > 0
-      menu_instance.render_message(msg: 'select item', items: player_char.inventory)
+      chosen_item = menu_instance.select_inventory
+      item_instance = player_char.inventory.find { |item| item.menu_command == chosen_item}
+      if item_instance
+        item_instance.apply_to(player_char)
+        menu_instance.render_message(msg: 'item used', item: item_instance)
+        player_char.inventory.delete(item_instance)
+      end
     else
-      menu_instance
+      menu_instance.render_message(msg: 'inventory empty')
     end
     reset_player_action 
   end

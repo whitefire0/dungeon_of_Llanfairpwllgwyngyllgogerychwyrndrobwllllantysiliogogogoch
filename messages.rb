@@ -71,15 +71,23 @@ module Messages
         puts "#{@game_instance.previous_enemy.name} lost all their health points and has died!\n".colorize(:red)
       end
     when 'enemy blocking'
-      puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!\n\n"
+      puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!\n\n".colorize(:red)
     when 'checking area'
       puts "You put on your adventurers spectacles and take a look around the area. It is a #{@game_instance.current_tile.tile_type.class} area, that's for sure.\n".colorize(:blue)
     when 'describe item'
-      puts "You discovered an item! The #{@game_instance.current_tile.item.item_type.name} triggers a vague memory and you think you remember what it does....#{@game_instance.current_tile.item.item_type.description}\n\nYou place it in your fanny pack for safe keeping\n\n".colorize(:cyan)
+      puts "You discovered an item! The #{@game_instance.current_tile.item.name} triggers a vague memory and you think you remember what it does....#{@game_instance.current_tile.item.description}\n\nYou place it in your fanny pack for safe keeping\n\n".colorize(:cyan)
     when 'no item present'
       puts "There is nothing of value here.".colorize(:light_black)
+    when 'select item'
+      puts "Inventory:".colorize(:magenta)
+      puts "----------------------------------------------------".colorize(:magenta)
+      options[:items].each { |item| puts "Name:   #{item.name.colorize(:light_black)}     Menu command: #{item.menu_command.colorize(:magenta)}"}
+      puts "----------------------------------------------------".colorize(:magenta)
+      puts "\n\nPlease select one of your items by typing in it's command".colorize(:magenta)
     when 'invalid action'
       puts "Invalid action. Please choose again.\n\n".colorize(:light_black)
+    when 'item used'
+      puts "\n\nYou used your #{options[:item].name}! #{options[:item].effect_message}\n\n".colorize(:blue)
     when 'not now'
       puts "\nYou can't do that right now\n\n".colorize(:light_black)
     when 'play again?'

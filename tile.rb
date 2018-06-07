@@ -10,6 +10,8 @@ class Tile
     item_chance = true
     @item = Item.create if item_chance
     @item_present = true if @item
+
+    
   end
 
   def self.create

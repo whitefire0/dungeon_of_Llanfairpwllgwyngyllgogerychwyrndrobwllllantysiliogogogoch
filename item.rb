@@ -1,39 +1,43 @@
 class Item
   attr_accessor :item_type, :description, :name
 
-  def initialize(classname)
-    item_type = Object.const_get(classname)
-    @item_type = item_type.new
+  def initialize
   end
 
   def self.create
-    classname = [
-      'HealthPotion', 'StrengthPotion', 'ConstitutionPotion',
-      'IntelligencePotion', 'DexterityPotion', 'PotionOfLuck',
-      'TheBloodOfChrist', 'ScrollOfSpectralSwords',
-      'PotionOfPrematureDementia', 'MarbleOfDarkMatter',
-      'HolyBomb', 'ScrollOfGimp', 'ScrollOfLightning', 
-      'UnidentifiedPotion', 'ScrollOfTeleport', 'YouDontKnowJavaScript', 'RaspberryPi', 'InvincibilityPotion'
-    ].sample
-    self.new(classname)
+    # klass_name = [
+    #   HealthPotion, StrengthPotion, ConstitutionPotion,
+    #   'IntelligencePotion', 'DexterityPotion', 'PotionOfLuck',
+    #   'TheBloodOfChrist', 'ScrollOfSpectralSwords',
+    #   'PotionOfPrematureDementia', 'MarbleOfDarkMatter',
+    #   'HolyBomb', 'ScrollOfGimp', 'ScrollOfLightning', 
+    #   'UnidentifiedPotion', 'ScrollOfTeleport', 'YouDontKnowJavaScript', 'RaspberryPi', 'InvincibilityPotion'
+    # ].sample
+
+    # *** FOR TESTING ***
+    klass_name = HealthPotion
+    klass_name.new
   end
 
   def apply_to
     #  for overriding in subclasses
+    raise NotImplementedError
   end
   
 end
 
 class HealthPotion < Item
-  attr_accessor :description, :name
+  attr_accessor :description, :name, :menu_command, :effect_message
 
   def initialize
     @name = "health potion"
-    @description = "Through an eclectic combination of sorcery and nano-technology, this potion completely restores the players health. Plus it also takes like Fanta. This is some Gandalf shit for real."
+    @description = "Through an eclectic combination of sorcery and nano-technology, this potion completely restores the players health. Plus it also tastes like Fanta. This is some Gandalf shit for real."
+    @menu_command = 'hp'
+    @effect_message = "Your health was completely restored."
   end
 
   def apply_to(character)
-    character.health += self.base_health
+    character.health += character.base_health
   end
 end
 

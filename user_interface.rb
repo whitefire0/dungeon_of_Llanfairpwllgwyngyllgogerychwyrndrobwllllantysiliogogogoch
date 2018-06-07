@@ -42,9 +42,7 @@ class UserInterface
   end
 
   def create_character
-    # binding.pry
     while player_class == NilClass do
-      # binding.pry
       render_message(msg: 'choose class')
       # chosen_class = gets.chomp
       # *** FOR TESTING ***
@@ -95,7 +93,7 @@ class UserInterface
       when /^i/
         @game_instance.chosen_action = 'inspect'
       when /^u/
-        @game_instance.chosen_action = 'use'
+        @game_instance.chosen_action = 'use item'
       when /^d/
         @game_instance.chosen_action = 'dance'
       when /^e/
@@ -120,10 +118,8 @@ class UserInterface
         @game_instance.rest
       when "inspect"
         @game_instance.inspect        
-      when "hide"
-        @game_instance.hide
       when "use item"
-        @game_instance.hide
+        @game_instance.use_item
       when "dance"
       when "retreat"
       when "save and exit"
@@ -143,6 +139,12 @@ class UserInterface
       sleep(2) unless dev_mode
       render_message(msg: 'inspect enemy')
     end
+  end
+
+  def select_inventory
+    inventory = @game_instance.player_char.inventory
+    render_message(msg: 'select item', items: inventory)
+    chosen_item = gets.chomp
   end
 
   def exit_game?
