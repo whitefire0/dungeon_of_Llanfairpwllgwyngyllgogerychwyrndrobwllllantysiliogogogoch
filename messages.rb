@@ -54,6 +54,7 @@ module Messages
       | r = Rest                                    |
       | i = Inspect area                            |
       | u = Use item                                |
+      | c = Check stats                             |
       | d = Dance                                   |
       | e = Retreat                                 |
       | s = Save and exit                           |

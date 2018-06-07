@@ -94,6 +94,8 @@ class UserInterface
         @game_instance.chosen_action = 'inspect'
       when /^u/
         @game_instance.chosen_action = 'use item'
+      when /^c/
+        @game_instance.chosen_action = 'check stats'
       when /^d/
         @game_instance.chosen_action = 'dance'
       when /^e/
@@ -120,6 +122,9 @@ class UserInterface
         @game_instance.inspect        
       when "use item"
         @game_instance.use_item
+      when "check stats"
+        render_message(msg: 'character stats')
+        @game_instance.reset_player_action
       when "dance"
       when "retreat"
       when "save and exit"

@@ -3,42 +3,10 @@ git ls-files | xargs cat | wc -l
 Todo
   * Refactor some of the UI methods into game itself, so that a console user could run the game with commands entirely
 
-  Refactor Tile so that only Tile knows what kinds of tiles exist. Calling Tile.create makes it randomly initialise one of its subclasses. This decouples it from Game.
+  * Refactor Tile so that only Tile knows what kinds of tiles exist. Calling Tile.create makes it randomly initialise one of its subclasses. This decouples it from Game.
 
-  introduce item effects
-    inspect wiring between new tile, item and game item detection
-
-    Tile.tile_type recieves new tile
-      tile_type.tile_description
-
-      = current_tile.tile_type.tile_description
-
-    Tile.item recieves new item
-      Tile.item.mame
-      Tile.item.description
-
-      = current_tile.item.description
-
-    Menu coloring
-    [:black, :light_black, :red, :light_red, :green, :light_green, :yellow, :light_yellow, :blue, :light_blue, :magenta, :light_magenta, :cyan, :light_cyan, :white, :light_white, :default]
-
-    :default, :bold, :italic, :underline, :blink, :swap, :hide]
-
-      get action: light_black
-
-      all stats: yellow
-
-      hits: light red
-      dies: red
-
-      walk: light green
-
-      item find/use: blue
-
-      tile descript: green
-      item descrip: light green
-
-
+  * introduce item effects
+    complete other item effects beyond health potion
 
   introduce game events
 
