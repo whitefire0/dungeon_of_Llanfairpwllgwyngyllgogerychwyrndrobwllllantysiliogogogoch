@@ -6,7 +6,8 @@ class Tile
     @tile_type = tile_type.new
     enemy_chance = chance_in_5
     generate_enemy if enemy_chance
-    item_chance = chance_in_5
+    # item_chance = chance_in_5
+    item_chance = true
     @item = Item.create if item_chance
     @item_present = true if @item
   end

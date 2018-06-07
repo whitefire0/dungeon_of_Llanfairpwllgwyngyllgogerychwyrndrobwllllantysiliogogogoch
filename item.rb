@@ -1,5 +1,5 @@
 class Item
-  attr_accessor :item_type
+  attr_accessor :item_type, :description, :name
 
   def initialize(classname)
     item_type = Object.const_get(classname)
@@ -25,7 +25,7 @@ class Item
 end
 
 class HealthPotion < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "health potion"
@@ -37,7 +37,7 @@ class HealthPotion < Item
 end
 
 class StrengthPotion < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "strength potion"
@@ -49,7 +49,7 @@ class StrengthPotion < Item
 end
 
 class ConstitutionPotion < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "constitution potion"
@@ -61,7 +61,7 @@ class ConstitutionPotion < Item
 end
 
 class IntelligencePotion < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "intelligence potion"
@@ -73,7 +73,7 @@ class IntelligencePotion < Item
 end
 
 class DexterityPotion < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "dexterity potion"
@@ -85,7 +85,7 @@ class DexterityPotion < Item
 end
 
 class PotionOfLuck < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "potion of luck"
@@ -97,7 +97,7 @@ class PotionOfLuck < Item
 end
 
 class TheBloodOfChrist < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "blood of christ"
@@ -109,7 +109,7 @@ class TheBloodOfChrist < Item
 end
 
 class ScrollOfSpectralSwords < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "scroll of spectral swords"
@@ -121,7 +121,7 @@ class ScrollOfSpectralSwords < Item
 end
 
 class PotionOfPrematureDementia < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "potion of premature dementia"
@@ -133,7 +133,7 @@ class PotionOfPrematureDementia < Item
 end
 
 class MarbleOfDarkMatter < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "a marble of dark matter"
@@ -145,7 +145,7 @@ class MarbleOfDarkMatter < Item
 end
 
 class HolyBomb < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "holy bomb"
@@ -157,7 +157,7 @@ class HolyBomb < Item
 end
 
 class ScrollOfGimp < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "scroll of gimp"
@@ -169,7 +169,7 @@ class ScrollOfGimp < Item
 end
 
 class ScrollOfLightning < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "scroll of lightning"
@@ -181,7 +181,7 @@ class ScrollOfLightning < Item
 end
 
 class UnidentifiedPotion < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "unidentified potion"
@@ -193,7 +193,7 @@ class UnidentifiedPotion < Item
 end
 
 class ScrollOfTeleport < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "scroll of teleport"
@@ -205,7 +205,7 @@ class ScrollOfTeleport < Item
 end
 
 class YouDontKnowJavaScript < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "you don\'t know javascript"
@@ -217,7 +217,7 @@ class YouDontKnowJavaScript < Item
 end
 
 class RaspberryPi < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "raspberry pi"
@@ -229,7 +229,7 @@ class RaspberryPi < Item
 end
 
 class InvincibilityPotion < Item
-  attr_accessor :description
+  attr_accessor :description, :name
 
   def initialize
     @name = "invincibility potion"

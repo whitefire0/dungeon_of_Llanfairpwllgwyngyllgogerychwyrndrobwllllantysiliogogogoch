@@ -115,11 +115,10 @@ class Game
   def inspect
     if current_tile
       @menu_instance.render_message('checking area')
-      # binding.pry
-      if current_tile.tile_type.item
-        if current_tile.tile_type.item.item_
-          @menu_instance.render_message('describe item')
-        end
+      if current_tile.item
+        @menu_instance.render_message('describe item')
+      else
+        @menu_instance.render_message('no item present')
       end
     else
       @menu_instance.render_message('outside dungeon')
@@ -127,11 +126,20 @@ class Game
     reset_player_action
   end
 
-  def hide
+  def use_item
     if current_tile
       # code
     else
-      @menu_instance.render_message('outside dungeon')
+     
+    end
+    reset_player_action 
+  end
+
+  def dance
+    if current_tile
+      # code
+    else
+     
     end
     reset_player_action 
   end

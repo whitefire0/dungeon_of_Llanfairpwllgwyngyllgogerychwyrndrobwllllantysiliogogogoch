@@ -2,11 +2,11 @@ module Messages
   def render_message(msg)
     case msg
     when 'attacking nothing'
-      puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit.\n\n"
+      puts "You are attacking thin air...there is no enemy. Conserve your energy you dimwit.\n\n".colorize(:red)
     when 'outside dungeon'
-      puts "You are still standing outside the dungeon...get on with it!\n\n"
+      puts "You are still standing outside the dungeon...get on with it!\n\n".colorize(:red)
     when 'get name'
-      puts "Please enter your name, player: \n".colorize(:magenta)
+      puts "Please enter your name, player: \n".colorize(:light_black)
     when 'choose class'
       puts "\nPlease choose your character class:
               v = Viking 
@@ -14,7 +14,7 @@ module Messages
               w = Wizard 
               r = Rogue 
               c = Cleric 
-              g = Gimp\n".colorize(:magenta)
+              g = Gimp\n".colorize(:light_black)
     when 'welcome player'
       puts "Welcome to the dungeon, #{player_name} the #{player_class}! Untold glory awaits you.\n".colorize(:magenta)
     when 'character stats'
@@ -25,7 +25,7 @@ module Messages
         Constitution: #{player_constitution}
         Intelligence: #{player_intelligence}
         Dexterity: #{player_dexterity}
-        Your unique skill: #{player_unique_skills}\n".colorize(:blue)
+        Your unique skill: #{player_unique_skills}\n".colorize(:yellow)
     when 'walk into dungeon'
       puts "It is here that we begin. If you are sure you wish to proceed, you must walk into the dungeon itself...\n".colorize(:light_green)
     when 'step forward'
@@ -56,12 +56,12 @@ module Messages
         d = Dance
         e = Retreat
         s = Save and exit
-        x = Exit\n".colorize(:magenta)
+        x = Exit\n".colorize(:light_black)
     when 'hit'
       puts "#{@game_instance.last_attacking_char.name} the #{@game_instance.last_attacking_char.class} hit #{@game_instance.last_defending_char.name} the #{@game_instance.last_defending_char.class} for #{@game_instance.last_damage_dealt} hitpoints".colorize(:red) 
-      puts "#{@game_instance.last_defending_char.name} has #{@game_instance.last_defending_char.health} health remaining\n".colorize(:red)
+      puts "#{@game_instance.last_defending_char.name} has #{@game_instance.last_defending_char.health} health remaining\n".colorize(:light_red)
     when 'heal'
-      puts "#{player_name} the #{player_class} healed for #{@game_instance.healed} hitpoints\n".colorize(:red)
+      puts "#{player_name} the #{player_class} healed for #{@game_instance.healed} hitpoints\n".colorize(:blue)
     when 'no more rests'
       puts "You have no more rests remaining in this area...you must advance!\n".colorize(:red)
     when 'died'
@@ -71,18 +71,19 @@ module Messages
         puts "#{@game_instance.previous_enemy.name} lost all their health points and has died!\n".colorize(:red)
       end
     when 'enemy blocking'
-      # binding.pry
       puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!\n\n"
     when 'checking area'
-      puts "You put on your adventurers spectacles and take a look around the area. It is a #{@game_instance.current_tile.tile_type.class} area, that's for sure. \n\n".colorize(:light_green)
+      puts "You put on your adventurers spectacles and take a look around the area. It is a #{@game_instance.current_tile.tile_type.class} area, that's for sure.\n".colorize(:blue)
     when 'describe item'
-      puts "You discovered an item! The #{@game_instance.current_tile.item_type} triggers a vague memory and you think you remember what it does....#{@game_instance.current_tile.item_description}.\n\nYou place it in your fanny pack for safe keeping".colorize(:light_green)
+      puts "You discovered an item! The #{@game_instance.current_tile.item.item_type.name} triggers a vague memory and you think you remember what it does....#{@game_instance.current_tile.item.item_type.description}\n\nYou place it in your fanny pack for safe keeping\n\n".colorize(:cyan)
+    when 'no item present'
+      puts "There is nothing of value here.".colorize(:light_black)
     when 'invalid action'
       puts "Invalid action. Please choose again.\n\n".colorize(:light_black)
     when 'not now'
-      puts "\nYou can't do that right now\n\n"
+      puts "\nYou can't do that right now\n\n".colorize(:light_black)
     when 'play again?'
-      puts "You have been defeated! Would you like to play again? (y/n)"
+      puts "You have been defeated! Would you like to play again? (y/n)".colorize(:magenta)
     else
     end
   end
