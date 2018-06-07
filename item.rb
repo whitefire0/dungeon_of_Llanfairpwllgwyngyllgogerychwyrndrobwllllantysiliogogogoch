@@ -127,11 +127,12 @@ class TheBloodOfChrist < Item
   def initialize
     @name = "blood of christ"
     @description = "Do you know the Lord and Saviour, Jesus Christ? You will if you can stomach 4 pints of slightly brown looking blood. And then you will terrify anything born of the underworld...even the legendary Balrog..."
-    @menu_command = ""
-    @effect_message = ""
+    @menu_command = "boc"
+    @effect_message = "You have been granted immunity to the Balrog. For one encounter. Oh come on, you didn't think I would make it that easy, did you? Check your unique skills."
   end
 
   def apply_to(character)
+    character.unique_skills.merge({balrog_immunity: 1})
   end
 end
 
@@ -155,11 +156,12 @@ class PotionOfPrematureDementia < Item
   def initialize
     @name = "potion of premature dementia"
     @description = "The wizard who created this potion tested it upon himself, in the process forgetting its actually intended effect. He went on to exhibit strange powers and even stranger behaviour."
-    @menu_command = ""
-    @effect_message = ""
+    @menu_command = "popd"
+    @effect_message = "You suddenly have forgotten every moment of your existence up to this point. Yup - you knew it would be stupid to use it, didn't you. You did it anyway."
   end
 
   def apply_to(character)
+    character.intelligence = 1
   end
 end
 
@@ -197,11 +199,12 @@ class ScrollOfGimp < Item
   def initialize
     @name = "scroll of gimp"
     @description = "Turns your enemy into a useless gimp. At least, that's what it looks like the label says. The description ink has partially been dissolved by KY Jelly"
-    @menu_command = ""
-    @effect_message = ""
+    @menu_command = "sog"
+    @effect_message = "You have been transmogrified into a gimp."
   end
 
   def apply_to(character)
+    character = Gimp.create('Spank me')
   end
 end
 
@@ -211,8 +214,8 @@ class ScrollOfLightning < Item
   def initialize
     @name = "scroll of lightning"
     @description = "This doesn't work because you are underground, and you can't make lightning underground. Soz."
-    @menu_command = ""
-    @effect_message = ""
+    @menu_command = "sol"
+    @effect_message = "This doesn't work because you are underground, and you can't make lightning underground. Soz"
   end
 
   def apply_to(character)
@@ -229,7 +232,15 @@ class UnidentifiedPotion < Item
     @effect_message = ""
   end
 
-  def apply_to(character)
+  # def apply_to(character)
+  # end
+
+  def effect_game
+    random = rand(50)
+    random.times do
+      self.get_new_tile
+    end
+    # have menu update player as to new tile number
   end
 end
 

@@ -7,6 +7,7 @@ Todo
 
   * introduce item effects
     complete other item effects beyond health potion
+    how to get Item to message Game if it is a game event causing item?
 
   introduce game events
 

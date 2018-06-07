@@ -2,7 +2,7 @@ require_relative 'base_attributes'
 
 class Viking < Character
   attr_reader :name, :base_health
-  attr_accessor :health
+  attr_accessor :health, :unique_skills
 
   def roll_attribute_modifiers
     @health += 200
