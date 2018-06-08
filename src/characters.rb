@@ -21,9 +21,6 @@ class Viking < Character
 end
 
 class Barbarian < Character
-  attr_reader :name
-  attr_writer :name
-
   def roll_attribute_modifiers
     @health += 50
     @strength = (@strength * 2).round
@@ -42,8 +39,6 @@ class Barbarian < Character
 end
 
 class Wizard < Character
-  attr_reader :name
-
   def roll_attribute_modifiers
     @health -= 100 unless @health < 125
     @strength = (@strength * 0.5).round
@@ -62,8 +57,6 @@ class Wizard < Character
 end
 
 class Rogue < Character
-  attr_reader :name
-
   def roll_attribute_modifiers
     @health += 100
     @strength = (@strength * 1.1).round
@@ -82,8 +75,6 @@ class Rogue < Character
 end
 
 class Cleric < Character
-  attr_reader :name
-
   def roll_attribute_modifiers
     @health -= 150 unless @health < 125
     @strength = (@strength * 0.6).round
@@ -102,7 +93,6 @@ class Cleric < Character
 end
 
 class Gimp < Character
-  attr_reader :name
   def roll_attribute_modifiers
     @health += 1000
     @strength = (@strength * 0.1).round
@@ -121,7 +111,6 @@ class Gimp < Character
 end
 
 class SwagLord < Character
-  attr_reader :name
   def roll_attribute_modifiers
     @health += 9999
     @strength = (@strength * 9999).round
