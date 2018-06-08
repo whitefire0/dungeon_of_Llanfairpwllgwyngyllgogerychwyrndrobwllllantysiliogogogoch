@@ -119,7 +119,7 @@ class Game
         player_char.inventory << current_tile.item
         menu_instance.render_message(msg: 'describe item')
       else
-        menu_instance.render_message(msg: 'no item present')
+        menu_instance.render_message(msg: 'inventory empty')
       end
     else
       menu_instance.render_message(msg: 'outside dungeon')
@@ -130,11 +130,16 @@ class Game
   def use_item
     if player_char.inventory.length > 0
       chosen_item = menu_instance.select_inventory
-      item_instance = player_char.inventory.find { |item| item.menu_command == chosen_item}
+      item_instance = player_char.inventory.first { |item| item.menu_command == chosen_item}
+      item_index = player_char.inventory.find_index { |item| item_instance }
       if item_instance
-        item_instance.apply_to(player_char)
+        if item_instance.game_effect
+          item_instance.effect_game(self)
+        else
+          item_instance.apply_to(player_char)
+        end
         menu_instance.render_message(msg: 'item used', item: item_instance)
-        player_char.inventory.delete(item_instance)
+        player_char.inventory.delete_at(item_index)
       end
     else
       menu_instance.render_message(msg: 'inventory empty')
