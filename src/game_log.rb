@@ -1,2 +1,2 @@
-class GameLog
+class Logger
 end

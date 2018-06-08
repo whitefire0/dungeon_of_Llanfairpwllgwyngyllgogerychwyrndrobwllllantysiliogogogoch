@@ -1,9 +1,13 @@
+require_relative 'before_action'
+
 class Game
-  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :chosen_action, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy, :healed, :game_speed
+  # include Before
+  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :chosen_action, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy, :healed, :game_speed, :victory
 
   def initialize
     @menu_instance = nil
     @on = true
+    @victory = false
     @delays_off = true
     @player_created = false
     @player_name = nil
@@ -16,6 +20,7 @@ class Game
     @current_tile = nil
     @chosen_action = nil
     generate_npcs
+    # before(:get_new_tile) { has_won? }
   end
 
   def create_player(name)
@@ -210,6 +215,18 @@ class Game
     sleep(0.35) unless menu_instance.dev_mode
     damage = current_tile.enemy.hit(player_char)
     damage
+  end
+
+  def has_won?
+    if current_tile >= 100
+      @victory = true
+      end_game
+    end
+  end
+
+  def end_game
+    menu_instance.render_message('victory')
+    menu_instance.exit_game?
   end
 
 end
