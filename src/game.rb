@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :chosen_action, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy, :healed
+  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :chosen_action, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy, :healed, :game_speed
 
   def initialize
     @menu_instance = nil
@@ -10,6 +10,7 @@ class Game
     @player_char = nil
     @character_chosen = false
     @tile_number = 0
+    @game_speed = 1
     @spent_tiles = 0
     @tile_type = nil
     @current_tile = nil
@@ -30,7 +31,7 @@ class Game
 
   def get_new_tile
     @current_tile = Tile.create
-    @tile_number += 1
+    @tile_number += game_speed
   end
 
   def generate_npcs

@@ -8,7 +8,7 @@ class Item
     klass_name = [
       HealthPotion, StrengthPotion, ConstitutionPotion,
       IntelligencePotion, DexterityPotion, TheBloodOfChrist, 
-      PotionOfPrematureDementia, ScrollOfLightning, ScrollOfTeleport
+      PotionOfPrematureDementia, ScrollOfLightning, ScrollOfTeleport, RabbitsFoot
     ].sample
 
     klasses_to_implement = [
@@ -19,7 +19,7 @@ class Item
     ]
 
     # *** FOR TESTING ***
-    klass_name = ScrollOfTeleport
+    klass_name = UnidentifiedPotion
 
     klass_name.new
   end
@@ -113,6 +113,25 @@ class DexterityPotion < Item
 
   def apply_to(character)
     character.dexterity *= 2
+  end
+end
+
+class RabbitsFoot < Item
+  attr_accessor :description, :name, :menu_command, :effect_message, :game_effect
+
+  def initialize
+    @name = "rabbits foot"
+    @description = "By replacing one of your feat with this old foot (bone saw included), you gain the ability to move fowards in the dungeon 2 tiles at a time. Rabbit's feet have often been considered lucky. We'd say this was pretty lucky, given that it reduces your chances of death by 2 (and they were very high before) (they are still quite high)."
+    @menu_command = "rf"
+    @effect_message = "You are now about 2% rabbit, by dry mass. You can also hop over each other tile, doubling your moving speed."
+    @game_effect = true
+  end
+
+  def apply_to(character)
+  end
+
+  def effect_game(game_instance)
+    game_instance.game_speed = 2
   end
 end
 
@@ -240,19 +259,29 @@ class ScrollOfLightning < Item
 end
 
 class UnidentifiedPotion < Item
-  attr_accessor :description, :name, :menu_command, :effect_message
+  attr_accessor :description, :name, :menu_command, :effect_message, :game_effect
 
   def initialize
     @name = "unidentified potion"
-    @description = "What do you want to know? It's unidentified. You can either drink it, or call Samaritans on 116 123 (UK), 116 123 (ROI)"
+    @description = "What do you want to know? It's unidentified. It might kill you, it might make you impervious to all forms of harm. You can either drink it, or call Samaritans on 116 123 (UK), 116 123 (ROI). Perhaps they can help."
     @menu_command = "up"
     @effect_message = ""
     @game_effect = false
   end
 
   def apply_to(character)
+    binding.pry
+    p = rand(100)
+    case
+    when p < 99
+      character.health = 0
+      character.is_dead = true
+      @effect_message = "The potion insta-fragged you. Good job."
+    when p < 100
+      character.health = 999999
+      @effect_message = "Your health has been increased to 999,999 hitpoints. All forms of statistically analysis suggest your likelihood of beating the game is 99.99%+"
+    end
   end
-
 end
 
 class ScrollOfTeleport < Item

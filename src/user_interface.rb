@@ -18,6 +18,10 @@ class UserInterface
       get_player_action
       run_player_action
 
+      if @game_instance.player_char.is_dead
+        exit_game?
+      end
+
       # return true/false to outer game creation loop in main.rb
       if @play_again
         return true
