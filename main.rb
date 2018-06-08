@@ -2,14 +2,13 @@ require 'pry'
 require 'pry-byebug'
 require 'awesome_print'
 require 'colorize'
-require 'io/console'
 
-require_relative 'user_interface'
-require_relative 'game'
-require_relative 'tile'
-require_relative 'item'
-require_relative 'characters'
-require_relative 'enemies'
+require_relative 'src/user_interface'
+require_relative 'src/game'
+require_relative 'src/tile'
+require_relative 'src/item'
+require_relative 'src/characters'
+require_relative 'src/enemies'
 
 def start_game_instance
   play_again = true

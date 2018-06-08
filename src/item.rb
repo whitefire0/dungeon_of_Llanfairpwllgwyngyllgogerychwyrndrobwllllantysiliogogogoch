@@ -29,6 +29,10 @@ class Item
     #  for overriding in subclasses
     raise NotImplementedError
   end
+
+  def effect_game
+
+  end
   
 end
 
@@ -232,16 +236,16 @@ class UnidentifiedPotion < Item
     @effect_message = ""
   end
 
-  # def apply_to(character)
-  # end
-
-  def effect_game
-    random = rand(50)
-    random.times do
-      self.get_new_tile
-    end
-    # have menu update player as to new tile number
+  def apply_to(character)
   end
+
+  # def effect_game
+  #   random = rand(50)
+  #   random.times do
+  #     self.get_new_tile
+  #   end
+  #   # have menu update player as to new tile number
+  # end
 end
 
 class ScrollOfTeleport < Item
