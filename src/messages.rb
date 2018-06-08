@@ -81,6 +81,8 @@ module Messages
       puts "You discovered an item! The #{@game_instance.current_tile.item.name} triggers a vague memory and you think you remember what it does....#{@game_instance.current_tile.item.description}\n\nYou place it in your fanny pack for safe keeping\n\n".colorize(:cyan)
     when 'no item present'
       puts "There is nothing of value here.".colorize(:light_black)
+    when 'inventory empty'
+      puts "Your inventory is empty.\n\n".colorize(:light_red)
     when 'select item'
       puts "Inventory:".colorize(:magenta)
       puts "----------------------------------------------------".colorize(:magenta)

@@ -7,20 +7,19 @@ class Item
   def self.create
     klass_name = [
       HealthPotion, StrengthPotion, ConstitutionPotion,
-      IntelligencePotion, DexterityPotion
+      IntelligencePotion, DexterityPotion, TheBloodOfChrist, 
+      PotionOfPrematureDementia, ScrollOfLightning, ScrollOfTeleport
     ].sample
 
     klasses_to_implement = [
-      PotionOfLuck,
-      TheBloodOfChrist, ScrollOfSpectralSwords,
-      PotionOfPrematureDementia, MarbleOfDarkMatter,
-      HolyBomb, ScrollOfGimp, ScrollOfLightning, 
-      UnidentifiedPotion, ScrollOfTeleport, YouDontKnowJavaScript, 
+      PotionOfLuck, ScrollOfSpectralSwords, MarbleOfDarkMatter,
+      HolyBomb, ScrollOfGimp, 
+      UnidentifiedPotion, YouDontKnowJavaScript, 
       RaspberryPi, InvincibilityPotion
     ]
 
     # *** FOR TESTING ***
-    # klass_name = HealthPotion
+    klass_name = ScrollOfTeleport
 
     klass_name.new
   end
@@ -123,7 +122,7 @@ class PotionOfLuck < Item
   def initialize
     @name = "potion of luck"
     @description = "Dramatically increases your luck for a period of time. The only catch is you need to be lucky enough for it to work."
-    @menu_command = ""
+    @menu_command = "pol"
     @effect_message = ""
     @game_effect = false
   end
@@ -154,7 +153,7 @@ class ScrollOfSpectralSwords < Item
   def initialize
     @name = "scroll of spectral swords"
     @description = "Upon chanting these ancient words, a whirlwind of ghostly swords will spiral around your body, unleashing a severe beating for any thing close by. The terms and conditions and the bottom state that there is a small chance the swords will end up pointing at you. Instructions unclear."
-    @menu_command = ""
+    @menu_command = "soss"
     @effect_message = ""
     @game_effect = false
   end
@@ -185,7 +184,7 @@ class MarbleOfDarkMatter < Item
   def initialize
     @name = "a marble of dark matter"
     @description = "You remember hearing something about this little black ball down the pub. Contained within is the essence of Void itself. If squeezed too hard, it is rumoured to suddenly collapse space time around it, causing anything within this plane of existence to cease existing. If you use this item, your character and any progress you have ever made will be permanently deleted. For your stupidity, your IP address will be banned from ever playing the game again. This is not a joke. Really."
-    @menu_command = ""
+    @menu_command = "modm"
     @effect_message = ""
     @game_effect = false
   end
@@ -200,7 +199,7 @@ class HolyBomb < Item
   def initialize
     @name = "holy bomb"
     @description = "Unleashes the forces of Heaven in a pleasantly angelic sounding blast of the divine accordian. Depending on the mood of the One True God (David Attenborough), this sound will either smite your enemies into the underworld, or make them invincible."
-    @menu_command = ""
+    @menu_command = "hb"
     @effect_message = ""
     @game_effect = false
   end
@@ -216,7 +215,7 @@ class ScrollOfGimp < Item
     @name = "scroll of gimp"
     @description = "Turns your enemy into a useless gimp. At least, that's what it looks like the label says. The description ink has partially been dissolved by KY Jelly"
     @menu_command = "sog"
-    @effect_message = "You have been transmogrified into a gimp."
+    @effect_message = "You have been transmogrified into a gimp. Time for a bloody good rogering."
     @game_effect = false
   end
 
@@ -246,7 +245,7 @@ class UnidentifiedPotion < Item
   def initialize
     @name = "unidentified potion"
     @description = "What do you want to know? It's unidentified. You can either drink it, or call Samaritans on 116 123 (UK), 116 123 (ROI)"
-    @menu_command = ""
+    @menu_command = "up"
     @effect_message = ""
     @game_effect = false
   end
@@ -254,27 +253,34 @@ class UnidentifiedPotion < Item
   def apply_to(character)
   end
 
-  # def effect_game
-  #   random = rand(50)
-  #   random.times do
-  #     self.get_new_tile
-  #   end
-  #   # have menu update player as to new tile number
-  # end
 end
 
 class ScrollOfTeleport < Item
-  attr_accessor :description, :name, :menu_command, :effect_message
+  attr_accessor :description, :name, :menu_command, :effect_message, :game_effect
 
   def initialize
     @name = "scroll of teleport"
     @description = "Summons random quantum forces to move you forwards. Or backwards."
-    @menu_command = ""
+    @menu_command = "sot"
     @effect_message = ""
-    @game_effect = false
+    @game_effect = true
   end
 
   def apply_to(character)
+  end
+
+  def effect_game(game_instance)
+    tiles = rand(-50..50)
+    direction = tiles > 0 ? 'forwards' : 'backwards'
+    # binding.pry
+    if game_instance.tile_number + tiles < 0
+      distance = game_instance.tile_number - 1
+      game_instance.tile_number = 1
+      @effect_message = "You have been moved #{distance} tiles back to the beginning! Shit!!"
+    else
+      game_instance.tile_number += tiles
+      @effect_message = "You have been moved #{tiles} tiles #{direction}!"
+    end
   end
 end
 
