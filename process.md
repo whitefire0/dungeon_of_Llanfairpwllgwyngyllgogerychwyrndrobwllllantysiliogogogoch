@@ -28,6 +28,9 @@ Todo
     say something funny
 
   * increase number of enemies
+
+      BUG: on player death, the enemy hits an additional time and the interface prints this
+
     give them random names on the classes
     have magic attacks for magic classes
     have chance of dodge based on dexterity

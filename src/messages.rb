@@ -97,6 +97,14 @@ module Messages
       puts "\n\nYou used your #{options[:item].name}! #{options[:item].effect_message}\n\n".colorize(:blue)
     when 'not now'
       puts "\nYou can't do that right now\n\n".colorize(:light_black)
+    when 'show scores'
+      report = game_instance.scoreboard.create_report
+      puts "Current Scorecard:\n\n
+            Score: #{report[:score]}
+            Enemies defeated: #{report[:enemies_defeated]}
+            Damage dealt: #{report[:damage_dealt]}
+            Damage taken: #{report[:damage_taken]}
+            Items used: #{report[:items_used]}\n\n".colorize(:magenta)
     when 'play again?'
       puts "You have been defeated! Would you like to play again? (y/n)".colorize(:magenta)
     else

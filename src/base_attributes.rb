@@ -3,6 +3,7 @@ module BaseAttributes
     @name = attributes[:name]
     @age = attributes[:age]
     @health = attributes[:health]
+    @base_health = attributes[:base_health]
     @strength = attributes[:strength]
     @constitution = attributes[:constitution]
     @dexterity = attributes[:dexterity]
@@ -29,6 +30,7 @@ class Character
       name: name,
       age: age,
       health: [age * 2, 300].min,
+      base_health: health,
       strength: [age / 2, 10].max,
       constitution: base_range,
       dexterity: base_range,

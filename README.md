@@ -31,3 +31,22 @@ Sir Richard
 
 > The name means "St Mary's church in the hollow of the white hazel near to the fierce whirlpool of St Tysilio of the red cave" in Welsh. It's an actual place.
 
+## Installation
+
+Install Ruby
+https://www.ruby-lang.org/en/documentation/installation/
+
+Install Ruby Gems
+https://rubygems.org/pages/download
+
+Git clone this repository
+
+Within that folder:
+`gem install bundler`
+`bundler install`
+
+## Run
+
+From your cloned folder:
+`ruby main.rb`
+

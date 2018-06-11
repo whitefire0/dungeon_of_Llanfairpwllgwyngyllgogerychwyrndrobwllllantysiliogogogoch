@@ -9,6 +9,7 @@ require_relative 'src/tile'
 require_relative 'src/item'
 require_relative 'src/characters'
 require_relative 'src/enemies'
+require_relative 'src/scoring_system'
 
 def start_game_instance
   play_again = true

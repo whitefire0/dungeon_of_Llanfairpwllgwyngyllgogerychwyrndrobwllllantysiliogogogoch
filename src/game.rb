@@ -13,6 +13,7 @@ class Game
     @player_name = nil
     @player_char = nil
     @character_chosen = false
+    @scoreboard = nil
     @tile_number = 0
     @game_speed = 1
     @spent_tiles = 0
@@ -31,6 +32,7 @@ class Game
   def set_player_class(classname)
     classname = Object.const_get(classname)
     @player_char = classname.create(@player_name)
+    @scoreboard = ScoringSystem.new
     @character_chosen = true
   end
 
@@ -169,6 +171,7 @@ class Game
       player_turn
       enemy_turn
     end
+    @battle_turns = 0
     who_won
   end
 
@@ -176,6 +179,8 @@ class Game
     unless player_char.is_dead
       @last_attacking_char = player_char
       @last_damage_dealt = player_attacks
+      scoreboard.dealt_damage(@last_damage_dealt)
+      @battle_turns += 1
       @last_defending_char = @current_tile.enemy
       menu_instance.render_message(msg: 'hit')
     else
@@ -187,6 +192,7 @@ class Game
     unless @current_tile.enemy.is_dead
       @last_attacking_char = @current_tile.enemy
       @last_damage_dealt = enemy_attacks
+      scoreboard.took_damage(@last_damage_dealt)
       @last_defending_char = player_char
       menu_instance.render_message(msg: 'hit')
     else
@@ -200,6 +206,8 @@ class Game
     end
     if @current_tile.enemy.health <= 0
       @previous_enemy = @current_tile.enemy
+      scoreboard.score_battle(@current_tile.enemy, @battle_turns)
+      menu_instance.render_message('show scores')
       @current_tile.enemy = nil
       @current_tile.enemy_present = false
     end
