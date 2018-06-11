@@ -35,17 +35,18 @@ class Tile
   end
 
   def generate_enemy
-    # if self.class === Dungeon
-    #   @enemy = Enemy.generate_from_probability(rand(0..40))
-    # elsif self.class == (Misty)
-    #   @enemy = Enemy.generate_from_probability(rand(0..85))
-    # elsif self.class == (Freezing)
-    #   @enemy = Enemy.generate_from_probability(rand(95..98))
-    # elsif self.class == Demonic
-    #   @enemy = Enemy.generate_from_probability(rand(95..100))
-    # else
+    # binding.pry
+    if self.tile_type.class === Dungeon
+      @enemy = Enemy.generate_from_probability(rand(0..40))
+    elsif self.tile_type.class == (Misty)
+      @enemy = Enemy.generate_from_probability(rand(0..85))
+    elsif self.tile_type.class == (Freezing)
+      @enemy = Enemy.generate_from_probability(rand(95..98))
+    elsif self.tile_type.class == Demonic
+      @enemy = Enemy.generate_from_probability(rand(95..100))
+    else
       @enemy = Enemy.generate_from_probability(rand(100))
-    # end
+    end
     @enemy_present = true
   end
 
