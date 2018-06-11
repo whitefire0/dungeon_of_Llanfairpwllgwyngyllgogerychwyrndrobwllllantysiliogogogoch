@@ -41,7 +41,7 @@ class Tile
     elsif self.tile_type.class == (Misty)
       @enemy = Enemy.generate_from_probability(rand(0..85))
     elsif self.tile_type.class == (Freezing)
-      @enemy = Enemy.generate_from_probability(rand(95..98))
+      @enemy = Enemy.generate_from_probability(rand(50..98))
     elsif self.tile_type.class == Demonic
       @enemy = Enemy.generate_from_probability(rand(95..100))
     else

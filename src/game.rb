@@ -8,7 +8,7 @@ class Game
     @menu_instance = nil
     @on = true
     @victory = false
-    @delays_off = true
+    @delays_off = false
     @player_created = false
     @player_name = nil
     @player_char = nil
