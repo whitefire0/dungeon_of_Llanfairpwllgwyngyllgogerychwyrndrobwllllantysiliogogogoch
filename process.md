@@ -31,6 +31,8 @@ Todo
 
       BUG: on player death, the enemy hits an additional time and the interface prints this
 
+      BUG: inventory search doesn't respond to commands properly, selecting wrong items
+
     give them random names on the classes
     have magic attacks for magic classes
     have chance of dodge based on dexterity

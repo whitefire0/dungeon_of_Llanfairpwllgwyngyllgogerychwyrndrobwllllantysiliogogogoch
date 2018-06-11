@@ -3,7 +3,7 @@ module BaseAttributes
     @name = attributes[:name]
     @age = attributes[:age]
     @health = attributes[:health]
-    @base_health = attributes[:base_health]
+    @base_health = attributes[:health]
     @strength = attributes[:strength]
     @constitution = attributes[:constitution]
     @dexterity = attributes[:dexterity]
@@ -16,7 +16,7 @@ end
 
 class Character
   include BaseAttributes
-  attr_accessor :name, :age, :health, :strength, :constitution, :dexterity, :intelligence, :unique_skills, :is_dead, :rests_per_turn, :rests_remaining, :health, :is_dead, :rests_per_turn, :rests_remaining, :inventory
+  attr_accessor :name, :age, :health, :strength, :constitution, :dexterity, :intelligence, :unique_skills, :is_dead, :rests_per_turn, :rests_remaining, :health, :base_health, :is_dead, :rests_per_turn, :rests_remaining, :inventory
 
   def initialize(attributes)
     create_base(attributes)
@@ -30,7 +30,6 @@ class Character
       name: name,
       age: age,
       health: [age * 2, 300].min,
-      base_health: health,
       strength: [age / 2, 10].max,
       constitution: base_range,
       dexterity: base_range,

@@ -43,10 +43,12 @@ Git clone this repository
 
 Within that folder:
 `gem install bundler`
+
 `bundler install`
 
 ## Run
 
 From your cloned folder:
+
 `ruby main.rb`
 

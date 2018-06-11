@@ -1,7 +1,7 @@
 class ScoringSystem
   attr_accessor :player_name, :player_char, :score, :enemies_defeated, :damage_dealt, :damage_taken, :items_used
 
-  def initalize(game_instance)
+  def initialize(game_instance)
     @game_instance = game_instance
     @player_name = game_instance.player_name
     @player_char = game_instance.player_char
@@ -14,8 +14,8 @@ class ScoringSystem
 
   def score_battle(defeated_enemy, turns_taken)
     # enemy health divided by turns taken
-    score += (defeated_enemy.base_health * 10) / turns_taken
-    enemies_defeated += 1
+    @score += (defeated_enemy.base_health * 10) / turns_taken
+    @enemies_defeated += 1
   end
 
   def took_damage(damage)
@@ -27,24 +27,22 @@ class ScoringSystem
   end
 
   def used_item
-    items_used += 1
+    @items_used += 1
   end
 
-  def 
-
   def score_tiles(tiles)
-    score += tiles * 50
+    @score += tiles * 50
   end
 
   def final_score
-    score -= (items_used * 100)
+    @score -= (items_used * 100)
   end
 
   def create_report
     report = {
       name: player_name,
       class: player_char.class,
-      char_stats: player_char
+      char_stats: player_char,
       score: score,
       enemies_defeated: enemies_defeated,
       damage_dealt: damage_dealt,

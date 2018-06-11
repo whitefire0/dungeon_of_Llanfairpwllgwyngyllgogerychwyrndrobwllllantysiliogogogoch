@@ -2,7 +2,7 @@ require_relative 'before_action'
 
 class Game
   # include Before
-  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :chosen_action, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy, :healed, :game_speed, :victory
+  attr_accessor :on, :player_created, :character_chosen, :player_name, :player_char, :menu_instance, :tile_number, :tile_type, :current_tile, :chosen_action, :npcs, :spent_tiles, :delays_off, :last_damage_dealt, :last_attacking_char, :last_defending_char, :previous_enemy, :healed, :game_speed, :victory, :scoreboard
 
   def initialize
     @menu_instance = nil
@@ -20,6 +20,7 @@ class Game
     @tile_type = nil
     @current_tile = nil
     @chosen_action = nil
+    @battle_turns = 0
     generate_npcs
     # before(:get_new_tile) { has_won? }
   end
@@ -32,7 +33,7 @@ class Game
   def set_player_class(classname)
     classname = Object.const_get(classname)
     @player_char = classname.create(@player_name)
-    @scoreboard = ScoringSystem.new
+    @scoreboard = ScoringSystem.new(self)
     @character_chosen = true
   end
 
@@ -171,8 +172,8 @@ class Game
       player_turn
       enemy_turn
     end
-    @battle_turns = 0
     who_won
+    @battle_turns = 0
   end
 
   def player_turn
@@ -206,8 +207,9 @@ class Game
     end
     if @current_tile.enemy.health <= 0
       @previous_enemy = @current_tile.enemy
+      # binding.pry
       scoreboard.score_battle(@current_tile.enemy, @battle_turns)
-      menu_instance.render_message('show scores')
+      menu_instance.render_message(msg: 'show scores')
       @current_tile.enemy = nil
       @current_tile.enemy_present = false
     end
