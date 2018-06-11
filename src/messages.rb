@@ -77,6 +77,8 @@ module Messages
       puts "You can't move foward, #{enemy_name} the #{enemy_class} is blocking your path!\n\n".colorize(:red)
     when 'checking area'
       puts "You put on your adventurers spectacles and take a look around the area. It is a #{@game_instance.current_tile.tile_type.class} area, that's for sure.\n".colorize(:blue)
+    when 'area empty'
+      puts "There is no loot :(\n\n".colorize(:blue)
     when 'describe item'
       puts "You discovered an item! The #{@game_instance.current_tile.item.name} triggers a vague memory and you think you remember what it does....#{@game_instance.current_tile.item.description}\n\nYou place it in your fanny pack for safe keeping\n\n".colorize(:cyan)
     when 'no item present'
@@ -88,7 +90,7 @@ module Messages
       puts "----------------------------------------------------".colorize(:magenta)
       options[:items].each { |item| puts "Name:   #{item.name.colorize(:light_black)}     Menu command: #{item.menu_command.colorize(:magenta)}"}
       puts "----------------------------------------------------".colorize(:magenta)
-      puts "\n\nPlease select one of your items by typing in it's command".colorize(:magenta)
+      puts "\n\nPlease select one of your items by typing in it's command, or use 'x' to exit".colorize(:magenta)
     when 'invalid action'
       puts "Invalid action. Please choose again.\n\n".colorize(:light_black)
     when 'item used'

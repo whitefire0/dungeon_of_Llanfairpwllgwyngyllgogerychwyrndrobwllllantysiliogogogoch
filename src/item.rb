@@ -19,9 +19,6 @@ class Item
       RaspberryPi, InvincibilityPotion
     ]
 
-    # *** FOR TESTING ***
-    klass_name = UnidentifiedPotion
-
     klass_name.new
   end
 
@@ -273,6 +270,7 @@ class ScrollOfTeleport < Item
     if game_instance.tile_number + tiles < 0
       distance = game_instance.tile_number - 1
       game_instance.tile_number = 1
+      game_instance.enemy_present = false
       @effect_message = "You have been moved #{distance} tiles back to the beginning! Shit!!"
     else
       game_instance.tile_number += tiles

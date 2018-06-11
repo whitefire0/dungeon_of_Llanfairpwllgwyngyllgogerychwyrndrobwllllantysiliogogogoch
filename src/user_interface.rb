@@ -138,6 +138,7 @@ class UserInterface
   end
 
   def present_tile
+    # binding.pry
     sleep(1) unless dev_mode
     render_message(msg: 'step forward')
     sleep(1) unless dev_mode

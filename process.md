@@ -27,7 +27,13 @@ Todo
     use special skill
     say something funny
 
-  increase number of enemies
+  * increase number of enemies
+    give them random names on the classes
+    have magic attacks for magic classes
+    have chance of dodge based on dexterity
+    have dexterity dynamically set the speed of player character
+    have constitution determine ability to tank
+
   have tiles dynamically set enemy probabilities
 
   create winning conditions

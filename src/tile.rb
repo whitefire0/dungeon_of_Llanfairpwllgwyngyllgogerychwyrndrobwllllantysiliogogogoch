@@ -4,14 +4,12 @@ class Tile
   def initialize(classname)
     tile_type = Object.const_get(classname)
     @tile_type = tile_type.new
-    enemy_chance = chance_in_5
+    enemy_chance = chance_in_3
+    # binding.pry
     generate_enemy if enemy_chance
-    # item_chance = chance_in_5
-    item_chance = true
+    item_chance = chance_in_3
     @item = Item.create if item_chance
-    @item_present = true if @item
-
-    
+    @item_present = true if @item    
   end
 
   def self.create
@@ -32,8 +30,22 @@ class Tile
     [true, false, false, false, false].sample
   end
 
+  def chance_in_3
+    [true, false, false].sample
+  end
+
   def generate_enemy
-    @enemy = Enemy.generate_from_probability(rand(100))
+    # if self.class === Dungeon
+    #   @enemy = Enemy.generate_from_probability(rand(0..40))
+    # elsif self.class == (Misty)
+    #   @enemy = Enemy.generate_from_probability(rand(0..85))
+    # elsif self.class == (Freezing)
+    #   @enemy = Enemy.generate_from_probability(rand(95..98))
+    # elsif self.class == Demonic
+    #   @enemy = Enemy.generate_from_probability(rand(95..100))
+    # else
+      @enemy = Enemy.generate_from_probability(rand(100))
+    # end
     @enemy_present = true
   end
 
